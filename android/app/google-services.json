@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "930230142012",
+    "project_id": "bitvote-354f8",
+    "storage_bucket": "bitvote-354f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930230142012:android:aa799438db9085f1776f39",
+        "android_client_info": {
+          "package_name": "com.tstipanic.bit_vote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930230142012-icopetbur2hrss51qfoschvhkkr26lug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbnbHeFcGUvZGOtdlVSIGWY3gTCkxL0fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930230142012-icopetbur2hrss51qfoschvhkkr26lug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
