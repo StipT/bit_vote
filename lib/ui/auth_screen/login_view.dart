@@ -3,7 +3,6 @@ import 'package:bit_vote/logic/firestore/firestore_events.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/ui/auth_screen/register_view.dart';
-import 'package:bit_vote/ui/election_screen/election_view.dart';
 import 'package:bit_vote/ui/menu_screen/menu_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,49 +16,64 @@ import '../../providers.dart';
 
 class LoginView extends ConsumerWidget {
   final formKey = GlobalKey<FormState>();
+  bool firstTime = true;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery
+        .of(context)
+        .size;
 
-    final authStates = watch(authProvider);
+    var authStates = watch(authProvider);
     final authEvents = watch(authProvider.notifier);
 
     final firestoreStates = watch(firestoreProvider);
     final firestoreEvents = watch(firestoreProvider.notifier);
 
+
     authStates.authFailureOrSuccess.fold(
-      () {},
-      (either) => either.fold(
-        (failure) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            buildCustomSnackBar(
-                context: context,
-                flashBackground: Colors.red,
-                icon: Icons.warning_rounded,
-                content: Text(
-                  failure.maybeMap(
-                      orElse: () => '',
-                      emailAlreadyInUse: (value) => 'User already exists',
-                      serverError: (value) {
-                        return 'Server error occurred';
-                      },
-                      invalidEmailAndPasswordCombination: (value) {
-                        return 'Invalid email or password';
-                      }),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5!
-                      .copyWith(color: Colors.white),
-                ));
-          });
-        },
-        (success) {
-          print('SUCCESS');
-          firestoreEvents
-              .mapEventsToStates(const FirestoreEvents.readUserData());
-        },
-      ),
+          () {},
+          (either) =>
+          either.fold(
+                (failure) {
+              SchedulerBinding.instance!.addPostFrameCallback((_) {
+                buildCustomSnackBar(
+                    context: context,
+                    flashBackground: Colors.red,
+                    icon: Icons.warning_rounded,
+                    content: Text(
+                      failure.maybeMap(
+                          orElse: () => '',
+                          emailAlreadyInUse: (value) => 'User already exists',
+                          serverError: (value) {
+                            return 'Server error occurred';
+                          },
+                          invalidEmailAndPasswordCombination: (value) {
+                            return 'Invalid email or password';
+                          }),
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(color: Colors.white),
+                    ));
+              });
+            },
+                (success) {
+              firestoreEvents
+                  .mapEventsToStates(
+                  const FirestoreEvents.readUserData())
+                  .then((value) =>
+                  SchedulerBinding.instance!.addPostFrameCallback((_) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MenuView(),
+                        ),
+                            (route) => false);
+                  }));
+                  },
+          ),
     );
 
     firestoreStates.requestFailureOrSuccess.fold(
@@ -101,7 +115,6 @@ class LoginView extends ConsumerWidget {
                       .headline5!
                       .copyWith(color: Colors.white),
                 ));
-
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -166,23 +179,27 @@ class LoginView extends ConsumerWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              left: deviceSize.width * 0.1,
-                              right: deviceSize.width * 0.1),
+                              left: deviceSize.width * 0.05,
+                              right: deviceSize.width * 0.05),
                           child: Column(
                             children: [
                               TextFormField(
                                 autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                onChanged: (value) => authEvents
-                                    .mapEventsToStates(AuthEvents.emailChanged(
-                                        email: value.toString())),
+                                AutovalidateMode.onUserInteraction,
+                                onChanged: (value) =>
+                                    authEvents
+                                        .mapEventsToStates(
+                                        AuthEvents.emailChanged(
+                                            email: value.toString())),
                                 validator: (value) =>
                                     authStates.emailAddress.valueObject!.fold(
-                                  (failure) => failure.maybeMap(
-                                      orElse: () => null,
-                                      invalidEmail: (value) => 'Invalid email'),
-                                  (r) => null,
-                                ),
+                                          (failure) =>
+                                          failure.maybeMap(
+                                              orElse: () => null,
+                                              invalidEmail: (
+                                                  value) => 'Invalid email'),
+                                          (r) => null,
+                                    ),
                                 textInputAction: TextInputAction.next,
                                 onEditingComplete: () =>
                                     FocusScope.of(context).nextFocus(),
@@ -219,38 +236,39 @@ class LoginView extends ConsumerWidget {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: deviceSize.width * 0.1,
-                              right: deviceSize.width * 0.1,
+                              left: deviceSize.width * 0.05,
+                              right: deviceSize.width * 0.05,
                               top: deviceSize.height * 0.025),
                           child: Column(
                             children: [
                               TextFormField(
                                 autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                                 textInputAction: TextInputAction.done,
                                 obscureText: true,
                                 onEditingComplete: () =>
                                     FocusScope.of(context).nextFocus(),
                                 validator: (value) =>
                                     authStates.password.valueObject!.fold(
-                                  (failure) => failure.maybeMap(
-                                    orElse: () => null,
-                                    shortPassword: (value) =>
-                                        'Very short password',
-                                    noUpperCase: (value) =>
-                                        'Must contain an uppercase character',
-                                    noNumber: (value) =>
-                                        'Must contain a number',
-                                    noSpecialSymbol: (value) =>
-                                        'Must contain a special character',
-                                  ),
-                                  (r) => null,
-                                ),
+                                          (failure) =>
+                                          failure.maybeMap(
+                                            orElse: () => null,
+                                            shortPassword: (value) =>
+                                            'Very short password',
+                                            noUpperCase: (value) =>
+                                            'Must contain an uppercase character',
+                                            noNumber: (value) =>
+                                            'Must contain a number',
+                                            noSpecialSymbol: (value) =>
+                                            'Must contain a special character',
+                                          ),
+                                          (r) => null,
+                                    ),
                                 onChanged: (value) =>
                                     authEvents.mapEventsToStates(
-                                  AuthEvents.passwordChanged(
-                                      password: value.toString()),
-                                ),
+                                      AuthEvents.passwordChanged(
+                                          password: value.toString()),
+                                    ),
                                 decoration: new InputDecoration(
                                     prefixIcon: Icon(Icons.lock),
                                     border: InputBorder.none,
@@ -284,7 +302,7 @@ class LoginView extends ConsumerWidget {
                         ),
                         Container(
                           margin:
-                              EdgeInsets.only(top: deviceSize.height * 0.075),
+                          EdgeInsets.only(top: deviceSize.height * 0.075),
                           height: deviceSize.height * 0.05,
                           width: deviceSize.width * 0.8,
                           child: ElevatedButton(
@@ -347,11 +365,12 @@ class LoginView extends ConsumerWidget {
             ),
             Container(
               child: GestureDetector(
-                onTap: () => Navigator.push<Widget>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegisterView(),
-                    )),
+                onTap: () =>
+                    Navigator.push<Widget>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterView(),
+                        )),
                 child: RichText(
                   text: TextSpan(
                     children: <TextSpan>[

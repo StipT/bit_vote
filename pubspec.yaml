@@ -51,6 +51,8 @@ dependencies:
   logger: ^1.1.0
   flutter_spinkit: ^5.1.0
   qr_flutter: ^4.0.0
+  qr_code_scanner: ^0.5.2
+  permission_handler: ^8.1.6
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/bitVote_app_logo.svg
+    - assets/images/bitVote_app_logo.png
     - assets/images/bitVote_icon.svg
     - assets/images/bitVote_image.svg
     - assets/images/bitVote_image.png

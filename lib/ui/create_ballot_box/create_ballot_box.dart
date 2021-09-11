@@ -1,19 +1,10 @@
-import 'package:bit_vote/domain/core/errors.dart';
-import 'package:bit_vote/logic/blockchain/create_ballot_events.dart';
-import 'package:bit_vote/logic/blockchain/create_ballot_state_controller.dart';
-import 'package:bit_vote/logic/blockchain/create_ballot_states.dart';
-import 'package:bit_vote/logic/firestore/firestore_events.dart';
-import 'package:bit_vote/logic/firestore/firestore_state_controller.dart';
-import 'package:bit_vote/logic/firestore/firestore_states.dart';
-import 'package:bit_vote/repository/firestore_service.dart';
+import 'package:bit_vote/logic/create_ballot_box/create_ballot_events.dart';
 import 'package:bit_vote/repository/web3_service.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
 import 'package:bit_vote/shared/spinner_dialog.dart';
-import 'package:bit_vote/ui/election_screen/add_candidate_item.dart';
 import 'package:bit_vote/ui/share_screen/share_view.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -22,9 +13,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../providers.dart';
+import 'add_candidate_item.dart';
 
-class ElectionView extends ConsumerWidget {
+class CreateBallotBoxView extends ConsumerWidget {
   final formKey = GlobalKey<FormState>();
+  bool firstBuild = true;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -182,7 +175,8 @@ class ElectionView extends ConsumerWidget {
                             if (index == formStates.candidates.length) {
                               return AddCandidateItem(() {
                                 formEvents.mapEventsToStates(
-                                  const CreateBallotEvents.onEditCandidateAdded(),
+                                  const CreateBallotEvents
+                                      .onEditCandidateAdded(),
                                 );
                               });
                             } else {
@@ -207,9 +201,9 @@ class ElectionView extends ConsumerWidget {
                                       .candidates[
                                           formStates.candidates.length - 1]
                                       .name,
-                                  onChanged: (value) =>
-                                      formEvents.mapEventsToStates(
-                                          CreateBallotEvents.onEditCandidateName(
+                                  onChanged: (value) => formEvents
+                                      .mapEventsToStates(CreateBallotEvents
+                                          .onEditCandidateName(
                                               candidateId: BigInt.from(index),
                                               candidateName: value.toString())),
                                   textAlign: TextAlign.start,
@@ -244,9 +238,10 @@ class ElectionView extends ConsumerWidget {
                                             child: Icon(Icons.clear, size: 24)),
                                         onTap: () {
                                           formEvents.mapEventsToStates(
-                                            CreateBallotEvents.onRemoveCandidate(
-                                                candidateId:
-                                                    BigInt.from(index)),
+                                            CreateBallotEvents
+                                                .onRemoveCandidate(
+                                                    candidateId:
+                                                        BigInt.from(index)),
                                           );
                                         },
                                       ),
@@ -315,6 +310,4 @@ class ElectionView extends ConsumerWidget {
       ]),
     );
   }
-
-  bool firstBuild = true;
 }

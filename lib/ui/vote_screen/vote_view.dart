@@ -1,5 +1,4 @@
 import 'package:bit_vote/domain/core/errors.dart';
-import 'package:bit_vote/logic/blockchain/create_ballot_events.dart';
 import 'package:bit_vote/logic/vote/vote_events.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';

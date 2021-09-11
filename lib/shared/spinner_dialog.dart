@@ -13,11 +13,11 @@ class SpinnerDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black54,
       body: WillPopScope(
         onWillPop: () async => false,
         child: Container(
-          color: Colors.transparent,
+          color: Colors.black38,
           child: Center(
             child: Container(
               decoration: BoxDecoration(
@@ -28,10 +28,11 @@ class SpinnerDialog extends StatelessWidget {
                   deviceSize.width * 0.01,
                   deviceSize.height * 0.02,
                   deviceSize.width * 0.01,
-                  deviceSize.height * 0.01),
+                  deviceSize.height * 0.02),
               width: deviceSize.width * 0.6,
-              height: deviceSize.height * 0.3,
+            //  height: deviceSize.height * 0.3,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   LinearGradientMask(
                     child: SpinKitSpinningLines(
@@ -39,20 +40,22 @@ class SpinnerDialog extends StatelessWidget {
                       size: MediaQuery.of(context).size.height * 0.2,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        deviceSize.width * 0.01,
-                        deviceSize.height * 0.03,
-                        deviceSize.width * 0.01,
-                        deviceSize.height * 0.01),
-                    child: Text(
-                      status,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  status != ""
+                      ? Container(
+                          margin: EdgeInsets.fromLTRB(
+                              deviceSize.width * 0.01,
+                              deviceSize.height * 0.03,
+                              deviceSize.width * 0.01,
+                              deviceSize.height * 0.01),
+                          child: Text(
+                            status,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),

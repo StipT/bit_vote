@@ -3,10 +3,11 @@ import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/domain/blockchain/dto/candidate.dart';
 import 'package:bit_vote/domain/blockchain/dto/election_state.dart';
 import 'package:bit_vote/domain/blockchain/i_web3_service.dart';
-import 'package:bit_vote/logic/blockchain/create_ballot_events.dart';
-import 'package:bit_vote/logic/blockchain/create_ballot_states.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'create_ballot_events.dart';
+import 'create_ballot_states.dart';
 
 class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
   CreateBallotStateController(this._web3Service)

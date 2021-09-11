@@ -1,6 +1,7 @@
 import 'package:bit_vote/repository/firebase_authentication.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/ui/auth_screen/login_view.dart';
+import 'package:bit_vote/ui/auth_screen/register_view.dart';
 import 'package:bit_vote/ui/menu_screen/menu_view.dart';
 import 'package:bit_vote/ui/splash_screen/splash.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -25,14 +25,14 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
         );
       },
       readBallots: (value) async {
-        await _readUserId(
-          _firestoreService.readUserData,
-        );
+/*        await _readBallots(
+          _firestoreService.readBallots(),
+        );*/
       },
       storeBallots: (value) async {
-        await _storeUserId(
-          _firestoreService.storeUserData,
-        );
+/*        await _storeBallot(
+          _firestoreService.storeBallot(ballotBoxId: ),
+        );*/
       },
     );
   }

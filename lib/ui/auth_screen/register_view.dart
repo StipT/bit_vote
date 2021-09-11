@@ -4,7 +4,6 @@ import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
 import 'package:bit_vote/ui/auth_screen/login_view.dart';
-import 'package:bit_vote/ui/election_screen/election_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -164,8 +163,8 @@ class RegisterView extends ConsumerWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              left: deviceSize.width * 0.1,
-                              right: deviceSize.width * 0.1),
+                              left: deviceSize.width * 0.05,
+                              right: deviceSize.width * 0.05),
                           child: Column(
                             children: [
                               TextFormField(
@@ -217,8 +216,8 @@ class RegisterView extends ConsumerWidget {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: deviceSize.width * 0.1,
-                              right: deviceSize.width * 0.1,
+                              left: deviceSize.width * 0.05,
+                              right: deviceSize.width * 0.05,
                               top: deviceSize.height * 0.025),
                           child: Column(
                             children: [
