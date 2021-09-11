@@ -3,6 +3,7 @@ import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/domain/blockchain/i_web3_service.dart';
 import 'package:bit_vote/domain/core/errors.dart';
 import 'package:bit_vote/logic/vote/ballot_box_dto.dart';
+import 'package:bit_vote/shared/system.constants.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -16,10 +17,8 @@ class Web3Service implements IWeb3Service {
 
   factory Web3Service(String privateKey, String ethAddressHex) {
     if (_inst._privateKey != privateKey) {
-      print(
-          'WEB3Service init privateKey: ${privateKey} ethaDDRESS: ${ethAddressHex}');
       _inst._client = Client();
-      _inst._web3Client = Web3Client("http://192.168.1.7:7545", _inst._client);
+      _inst._web3Client = Web3Client(RPC_SERVER, _inst._client);
       _inst.ethAddress = EthereumAddress.fromHex(ethAddressHex);
       _inst._privateKey = privateKey;
     }
@@ -38,8 +37,8 @@ class Web3Service implements IWeb3Service {
   late Web3Client _web3Client;
 
   Future<DeployedContract> loadContract() async {
-    String abi = await rootBundle.loadString("assets/contracts/abi.json");
-    String contractAddress = "0x4cd09a16F1d1f889BC5d99B9473d2a31302f85fb";
+    String abi = await rootBundle.loadString(ABI_PATH);
+    String contractAddress = CONTRACT_ADDRESS;
 
     final contract = DeployedContract(
       ContractAbi.fromJson(abi, "Elections"),
@@ -53,8 +52,7 @@ class Web3Service implements IWeb3Service {
     DeployedContract _contract = await loadContract();
     DeployedContract contract = _contract;
     final ethFunction = contract.function(functionName);
-    final _credentials =
-        await _web3Client.credentialsFromPrivateKey(_privateKey);
+    final _credentials = EthPrivateKey.fromHex(_privateKey);
 
     final result = await _web3Client.sendTransaction(
       _credentials,
@@ -64,7 +62,6 @@ class Web3Service implements IWeb3Service {
         parameters: args,
       ),
     );
-
     return result;
   }
 
@@ -83,8 +80,6 @@ class Web3Service implements IWeb3Service {
 
     try {
       List<dynamic> result = await _call("checkState", [boxIdValue]);
-
-      print("Result is $result");
       return right(result.toString());
     } catch (e) {
       print(e.toString());
@@ -111,74 +106,13 @@ class Web3Service implements IWeb3Service {
       print(e.toString());
       return left(const BlockchainFailures.serverError());
     }
-//  returns (uint256 id,string memory name)
-  }
-
-  Future<Either<BlockchainFailures, String>> showWinner(
-      {required Id? boxId}) async {
-    final boxIdValue =
-        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-
-    try {
-      List<dynamic> result = await _call("showWinner", [boxIdValue]);
-      print(result);
-      return right(result.toString());
-    } catch (e) {
-      print(e.toString());
-      return left(const BlockchainFailures.serverError());
-    }
-    // returns (string memory name, uint256 id, uint256 votes)
-  }
-
-  Future<Either<BlockchainFailures, String>> showResults(
-      {required Id? boxId, required Id? candidateId}) async {
-    //returns (uint256 id, string memory name, uint256 count)
-
-    final boxIdValue =
-        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-
-    final candidateIdValue = candidateId!.valueObject!
-        .fold((l) => throw UnExpectedValueError(l), id);
-
-    try {
-      List<dynamic> result =
-          await _call("showResults", [boxIdValue, candidateIdValue]);
-
-      print(result);
-      return right(result.toString());
-    } catch (e) {
-      print(e.toString());
-      return left(const BlockchainFailures.serverError());
-    }
-  }
-
-  Future<Either<BlockchainFailures, String>> voterProfile(
-      {required Id? boxId, required Address? voterAddress}) async {
-    //  returns(uint256 votedTowards, string memory name)
-    final boxIdValue =
-        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-
-    final voterAddressValue = voterAddress!.valueObject!
-        .fold((l) => throw UnExpectedValueError(l), id);
-    try {
-      List<dynamic> result =
-          await _call("voterProfile", [boxIdValue, voterAddressValue]);
-
-      print(result);
-      return right(result.toString());
-    } catch (e) {
-      print(e.toString());
-      return left(const BlockchainFailures.serverError());
-    }
   }
 
   Future<Either<BlockchainFailures, BallotBoxDto>> showBallotBox(
       {required Id? boxId}) async {
-    //   returns (address admin,string memory desc,uint256 candidates,uint256[] memory)
     final boxIdValue =
         boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
 
-    print('Sent ballotBox id: ${boxIdValue}');
     try {
       List<dynamic> result = await _call("showBallotBox", [boxIdValue]);
 
@@ -206,7 +140,6 @@ class Web3Service implements IWeb3Service {
     for (Id? ids in boxIds) {
       final boxIdValue =
           ids!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-      print('Sent ballotBox id: ${boxIdValue}');
       try {
         List<dynamic> result = await _call("showBallotBox", [boxIdValue]);
 
@@ -244,16 +177,16 @@ class Web3Service implements IWeb3Service {
     }
   }
 
-  Future<Either<BlockchainFailures, Unit>> startElection(
-      {required Id? boxId, required int? duration}) async {
+  Future<Either<BlockchainFailures, Unit>> vote(
+      {required Id? boxId, required Id? candidateId}) async {
     final boxIdValue =
-        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+    boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+    final candidateIdValue = candidateId!.valueObject!
+        .fold((l) => throw UnExpectedValueError(l), id);
 
-    print('boxId');
-    BigInt durationZ = BigInt.from(duration!);
     try {
       var response =
-          await _sendTransaction("startElection", [boxIdValue, durationZ]);
+      await _sendTransaction("vote", [boxIdValue, candidateIdValue]);
       print(response);
       return right(unit);
     } catch (e) {
@@ -261,6 +194,40 @@ class Web3Service implements IWeb3Service {
       return left(const BlockchainFailures.transactionFailed());
     }
   }
+
+  Future<Either<BlockchainFailures, Unit>> addCandidate(
+      {required Id? boxId, required String name}) async {
+    final boxIdValue =
+    boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+
+    print(boxIdValue);
+    try {
+      var response = await _sendTransaction("addCandidate", [boxIdValue, name]);
+      print(response);
+      return right(unit);
+    } catch (e) {
+      print(e.toString());
+      return left(const BlockchainFailures.transactionFailed());
+    }
+  }
+
+
+
+  Future<Either<BlockchainFailures, Unit>> addVoter(
+      {required Id? boxId}) async {
+    final boxIdValue =
+    boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+    try {
+      var response = await _sendTransaction("addVoter", [boxIdValue]);
+      print(response);
+      return right(unit);
+    } catch (e) {
+      print(e.toString());
+      return left(const BlockchainFailures.transactionFailed());
+    }
+  }
+
+
 
   Future<Either<BlockchainFailures, Unit>> endElection(
       {required Id? boxId}) async {
@@ -276,53 +243,9 @@ class Web3Service implements IWeb3Service {
     }
   }
 
-  Future<Either<BlockchainFailures, Unit>> addCandidate(
-      {required Id? boxId, required String name}) async {
-    final boxIdValue =
-        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
 
-    print(boxIdValue);
-    try {
-      var response = await _sendTransaction("addCandidate", [boxIdValue, name]);
-      print(response);
-      return right(unit);
-    } catch (e) {
-      print(e.toString());
-      return left(const BlockchainFailures.transactionFailed());
-    }
-  }
 
-  Future<Either<BlockchainFailures, Unit>> addVoter(
-      {required Id? boxId}) async {
-    final boxIdValue =
-        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-    try {
-      var response = await _sendTransaction("addVoter", [boxIdValue]);
-      print(response);
-      return right(unit);
-    } catch (e) {
-      print(e.toString());
-      return left(const BlockchainFailures.transactionFailed());
-    }
-  }
 
-  Future<Either<BlockchainFailures, Unit>> vote(
-      {required Id? boxId, required Id? candidateId}) async {
-    final boxIdValue =
-        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-    final candidateIdValue = candidateId!.valueObject!
-        .fold((l) => throw UnExpectedValueError(l), id);
-
-    try {
-      var response =
-          await _sendTransaction("vote", [boxIdValue, candidateIdValue]);
-      print(response);
-      return right(unit);
-    } catch (e) {
-      print(e.toString());
-      return left(const BlockchainFailures.transactionFailed());
-    }
-  }
 
   void ballotBoxCreatedEvent(
       void onBallotBoxCreated(String sender, BigInt ballotBoxId, String topic,
@@ -347,8 +270,32 @@ class Web3Service implements IWeb3Service {
 
         onBallotBoxCreated(
             sender.toString(), ballotBoxId, ballotBoxDesc, ballotBoxState);
-        _logger.d(
-            "BallotBoxCreated: \nsender: $sender\nballotBoxId: $ballotBoxId\nballotboxDesc: $ballotBoxDesc\nballotBoxState: $ballotBoxState");
+      }
+    });
+  }
+
+  void votedSuccessfullyEvent(
+      void onVotedSuccessfully(
+          String sender, BigInt ballotBox, BigInt candidateId)) async {
+    DeployedContract _contract = await loadContract();
+    final votedSuccessfully = _contract.event('VotedSuccessfully');
+
+    _web3Client
+        .events(
+      FilterOptions.events(
+        contract: _contract,
+        event: votedSuccessfully,
+      ),
+    )
+        .listen((event) {
+      final decoded =
+      votedSuccessfully.decodeResults(event.topics!, event.data!);
+      final sender = decoded[0] as EthereumAddress;
+      if (ethAddress == sender) {
+        final ballotBoxId = decoded[1] as BigInt;
+        final candidateId = decoded[2] as BigInt;
+
+        onVotedSuccessfully(sender.hex, ballotBoxId, candidateId);
       }
     });
   }
@@ -373,9 +320,6 @@ class Web3Service implements IWeb3Service {
         final ballotBoxId = decoded[1] as BigInt;
         final ballotBoxState = decoded[2] as BigInt;
         final endTime = decoded[3] as BigInt;
-
-        _logger.d(
-            "ElectionStart: \nsender: $sender\nballotBoxId: $ballotBoxId\nballotBoxState: $ballotBoxState\nendTime: $endTime");
         onElectionStarted(sender.hex, ballotBoxId, ballotBoxState, endTime);
       }
     });
@@ -400,9 +344,6 @@ class Web3Service implements IWeb3Service {
       if (ethAddress == sender) {
         final ballotBoxId = decoded[1] as BigInt;
         final ballotBoxState = decoded[2] as String;
-
-        _logger.d(
-            "ElectionEnd: \nsender: $sender\nballotBoxId: $ballotBoxId\nballotBoxState: $ballotBoxState");
         onElectionEnded(sender.hex, ballotBoxId, ballotBoxState);
       }
     });
@@ -425,8 +366,6 @@ class Web3Service implements IWeb3Service {
       final sender = decoded[0] as EthereumAddress;
       if (ethAddress == sender) {
         final ballotBoxId = decoded[1] as BigInt;
-
-        _logger.d("AddedAVoter: \nsender: $sender\nballotBoxId: $ballotBoxId");
         onAddedAVoter(sender.hex, ballotBoxId);
       }
     });
@@ -455,37 +394,6 @@ class Web3Service implements IWeb3Service {
 
         onAddedACandidate(
             sender.toString(), ballotBoxId, candidateId, candidateName);
-        _logger.d(
-            "AddedACandidate: \nsender: $sender\nballotBoxId: $ballotBoxId\ncandidateId: $candidateId\ncandidateName: $candidateName");
-      }
-    });
-  }
-
-  void votedSuccessfullyEvent(
-      void onVotedSuccessfully(
-          String sender, BigInt ballotBox, BigInt candidateId)) async {
-    DeployedContract _contract = await loadContract();
-    final votedSuccessfully = _contract.event('VotedSuccessfully');
-
-    _web3Client
-        .events(
-      FilterOptions.events(
-        contract: _contract,
-        event: votedSuccessfully,
-      ),
-    )
-        .listen((event) {
-      final decoded =
-          votedSuccessfully.decodeResults(event.topics!, event.data!);
-      final sender = decoded[0] as EthereumAddress;
-      if (ethAddress == sender) {
-        final ballotBoxId = decoded[1] as BigInt;
-        final candidateId = decoded[2] as BigInt;
-
-        onVotedSuccessfully(sender.hex, ballotBoxId, candidateId);
-
-        _logger.d(
-            "VotedSuccessfully: \nsender: $sender\nballotBoxId: $ballotBoxId\ncandidateId: $candidateId");
       }
     });
   }

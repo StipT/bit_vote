@@ -1,21 +1,21 @@
+import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/domain/core/errors.dart';
-import 'package:bit_vote/logic/vote/vote_events.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
 import 'package:bit_vote/ui/vote_screen/vote_view.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../providers.dart';
-
 class ShareView extends ConsumerWidget {
+  ShareView(this.id);
+
+  late final Id id;
+
   final formKey = GlobalKey<FormState>();
 
   Logger _logger = Logger();
@@ -23,17 +23,6 @@ class ShareView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final deviceSize = MediaQuery.of(context).size;
-
-    final createBallotState = watch(createBallotProvider);
-    final createBallotEvents = watch(createBallotProvider.notifier);
-
-    final voteState = watch(voteProvider);
-    final voteEvent = watch(voteProvider.notifier);
-
-    BigInt ballotId = createBallotState.id.valueObject!
-        .fold((l) => throw UnExpectedValueError(l), id);
-
-    voteEvent.mapEventsToStates(VoteEvents.onBallotIdChange(id: ballotId));
 
     return SafeArea(
       child: Stack(
@@ -80,7 +69,8 @@ class ShareView extends ConsumerWidget {
                     ),
                     width: deviceSize.width * 0.4,
                     child: TextFormField(
-                      initialValue: ballotId.toString(),
+                      initialValue: id.valueObject!
+                          .fold((l) => throw UnExpectedValueError(l), (r) => r.toString()),
                       textAlign: TextAlign.center,
                       enabled: false,
                       onTap: () {
@@ -100,7 +90,8 @@ class ShareView extends ConsumerWidget {
                     alignment: Alignment.center,
                     child: LinearGradientMask(
                       child: QrImage(
-                        data: ballotId.toString(),
+                        data: id.valueObject!
+                            .fold((l) => throw UnExpectedValueError(l), (r) => r.toString()),
                         version: QrVersions.auto,
                         size: deviceSize.width * 0.6,
                         foregroundColor: Colors.white,
@@ -113,16 +104,13 @@ class ShareView extends ConsumerWidget {
                     width: deviceSize.width * 0.8,
                     child: ElevatedButton(
                       onPressed: () {
-                        voteEvent
-                            .mapEventsToStates(const VoteEvents.showBallotBox())
-                            .then((value) => SchedulerBinding.instance!
-                                    .addPostFrameCallback((_) {
-                                  Navigator.push<Widget>(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => VoteView(),
-                                      ));
-                                }));
+
+                        Navigator.pushAndRemoveUntil<Widget>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VoteView(id),
+                            ),
+                            ModalRoute.withName("VoteView"));
                       },
                       style: ButtonStyle(
                         backgroundColor:

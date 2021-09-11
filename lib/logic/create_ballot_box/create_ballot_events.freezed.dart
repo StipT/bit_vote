@@ -30,6 +30,12 @@ class _$CreateBallotEventsTearOff {
     );
   }
 
+  OnEditDuration onEditDuration({required BigInt? duration}) {
+    return OnEditDuration(
+      duration: duration,
+    );
+  }
+
   OnEditCandidateAdded onEditCandidateAdded() {
     return const OnEditCandidateAdded();
   }
@@ -66,31 +72,8 @@ class _$CreateBallotEventsTearOff {
     );
   }
 
-  BallotBoxEnded ballotBoxEnded(
-      {required String? sender,
-      required BigInt? ballotBoxId,
-      required String? electionState}) {
-    return BallotBoxEnded(
-      sender: sender,
-      ballotBoxId: ballotBoxId,
-      electionState: electionState,
-    );
-  }
-
   CreateBallotBox createBallotBox() {
     return const CreateBallotBox();
-  }
-
-  StartElection startElection() {
-    return const StartElection();
-  }
-
-  EndElection endElection() {
-    return const EndElection();
-  }
-
-  Vote vote() {
-    return const Vote();
   }
 }
 
@@ -104,6 +87,7 @@ mixin _$CreateBallotEvents {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -112,13 +96,7 @@ mixin _$CreateBallotEvents {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -126,6 +104,7 @@ mixin _$CreateBallotEvents {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -134,13 +113,7 @@ mixin _$CreateBallotEvents {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -148,30 +121,24 @@ mixin _$CreateBallotEvents {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -262,6 +229,7 @@ class _$OnEditTopicChanged implements OnEditTopicChanged {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -270,13 +238,7 @@ class _$OnEditTopicChanged implements OnEditTopicChanged {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) {
     return onEditTopicChanged(topic);
   }
@@ -287,6 +249,7 @@ class _$OnEditTopicChanged implements OnEditTopicChanged {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -295,13 +258,7 @@ class _$OnEditTopicChanged implements OnEditTopicChanged {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) {
     if (onEditTopicChanged != null) {
@@ -315,15 +272,12 @@ class _$OnEditTopicChanged implements OnEditTopicChanged {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) {
     return onEditTopicChanged(this);
   }
@@ -333,15 +287,12 @@ class _$OnEditTopicChanged implements OnEditTopicChanged {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) {
     if (onEditTopicChanged != null) {
@@ -443,6 +394,7 @@ class _$OnEditCandidateName implements OnEditCandidateName {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -451,13 +403,7 @@ class _$OnEditCandidateName implements OnEditCandidateName {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) {
     return onEditCandidateName(candidateId, candidateName);
   }
@@ -468,6 +414,7 @@ class _$OnEditCandidateName implements OnEditCandidateName {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -476,13 +423,7 @@ class _$OnEditCandidateName implements OnEditCandidateName {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) {
     if (onEditCandidateName != null) {
@@ -496,15 +437,12 @@ class _$OnEditCandidateName implements OnEditCandidateName {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) {
     return onEditCandidateName(this);
   }
@@ -514,15 +452,12 @@ class _$OnEditCandidateName implements OnEditCandidateName {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) {
     if (onEditCandidateName != null) {
@@ -541,6 +476,157 @@ abstract class OnEditCandidateName implements CreateBallotEvents {
   String? get candidateName => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $OnEditCandidateNameCopyWith<OnEditCandidateName> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OnEditDurationCopyWith<$Res> {
+  factory $OnEditDurationCopyWith(
+          OnEditDuration value, $Res Function(OnEditDuration) then) =
+      _$OnEditDurationCopyWithImpl<$Res>;
+  $Res call({BigInt? duration});
+}
+
+/// @nodoc
+class _$OnEditDurationCopyWithImpl<$Res>
+    extends _$CreateBallotEventsCopyWithImpl<$Res>
+    implements $OnEditDurationCopyWith<$Res> {
+  _$OnEditDurationCopyWithImpl(
+      OnEditDuration _value, $Res Function(OnEditDuration) _then)
+      : super(_value, (v) => _then(v as OnEditDuration));
+
+  @override
+  OnEditDuration get _value => super._value as OnEditDuration;
+
+  @override
+  $Res call({
+    Object? duration = freezed,
+  }) {
+    return _then(OnEditDuration(
+      duration: duration == freezed
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$OnEditDuration implements OnEditDuration {
+  const _$OnEditDuration({required this.duration});
+
+  @override
+  final BigInt? duration;
+
+  @override
+  String toString() {
+    return 'CreateBallotEvents.onEditDuration(duration: $duration)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is OnEditDuration &&
+            (identical(other.duration, duration) ||
+                const DeepCollectionEquality()
+                    .equals(other.duration, duration)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(duration);
+
+  @JsonKey(ignore: true)
+  @override
+  $OnEditDurationCopyWith<OnEditDuration> get copyWith =>
+      _$OnEditDurationCopyWithImpl<OnEditDuration>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? topic) onEditTopicChanged,
+    required TResult Function(BigInt? candidateId, String? candidateName)
+        onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
+    required TResult Function() onEditCandidateAdded,
+    required TResult Function(BigInt? candidateId) onRemoveCandidate,
+    required TResult Function(String? sender, BigInt? ballotBoxId,
+            String? topic, String? electionState)
+        ballotBoxCreated,
+    required TResult Function(String? sender, BigInt? ballotBoxId,
+            BigInt? electionState, BigInt? endTime)
+        ballotBoxStarted,
+    required TResult Function() createBallotBox,
+  }) {
+    return onEditDuration(duration);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? topic)? onEditTopicChanged,
+    TResult Function(BigInt? candidateId, String? candidateName)?
+        onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
+    TResult Function()? onEditCandidateAdded,
+    TResult Function(BigInt? candidateId)? onRemoveCandidate,
+    TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
+            String? electionState)?
+        ballotBoxCreated,
+    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
+            BigInt? endTime)?
+        ballotBoxStarted,
+    TResult Function()? createBallotBox,
+    required TResult orElse(),
+  }) {
+    if (onEditDuration != null) {
+      return onEditDuration(duration);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
+    required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
+    required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
+    required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
+    required TResult Function(BallotBoxCreated value) ballotBoxCreated,
+    required TResult Function(BallotBoxStarted value) ballotBoxStarted,
+    required TResult Function(CreateBallotBox value) createBallotBox,
+  }) {
+    return onEditDuration(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
+    TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
+    TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
+    TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
+    TResult Function(BallotBoxCreated value)? ballotBoxCreated,
+    TResult Function(BallotBoxStarted value)? ballotBoxStarted,
+    TResult Function(CreateBallotBox value)? createBallotBox,
+    required TResult orElse(),
+  }) {
+    if (onEditDuration != null) {
+      return onEditDuration(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnEditDuration implements CreateBallotEvents {
+  const factory OnEditDuration({required BigInt? duration}) = _$OnEditDuration;
+
+  BigInt? get duration => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $OnEditDurationCopyWith<OnEditDuration> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -587,6 +673,7 @@ class _$OnEditCandidateAdded implements OnEditCandidateAdded {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -595,13 +682,7 @@ class _$OnEditCandidateAdded implements OnEditCandidateAdded {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) {
     return onEditCandidateAdded();
   }
@@ -612,6 +693,7 @@ class _$OnEditCandidateAdded implements OnEditCandidateAdded {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -620,13 +702,7 @@ class _$OnEditCandidateAdded implements OnEditCandidateAdded {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) {
     if (onEditCandidateAdded != null) {
@@ -640,15 +716,12 @@ class _$OnEditCandidateAdded implements OnEditCandidateAdded {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) {
     return onEditCandidateAdded(this);
   }
@@ -658,15 +731,12 @@ class _$OnEditCandidateAdded implements OnEditCandidateAdded {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) {
     if (onEditCandidateAdded != null) {
@@ -749,6 +819,7 @@ class _$OnRemoveCandidate implements OnRemoveCandidate {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -757,13 +828,7 @@ class _$OnRemoveCandidate implements OnRemoveCandidate {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) {
     return onRemoveCandidate(candidateId);
   }
@@ -774,6 +839,7 @@ class _$OnRemoveCandidate implements OnRemoveCandidate {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -782,13 +848,7 @@ class _$OnRemoveCandidate implements OnRemoveCandidate {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) {
     if (onRemoveCandidate != null) {
@@ -802,15 +862,12 @@ class _$OnRemoveCandidate implements OnRemoveCandidate {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) {
     return onRemoveCandidate(this);
   }
@@ -820,15 +877,12 @@ class _$OnRemoveCandidate implements OnRemoveCandidate {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) {
     if (onRemoveCandidate != null) {
@@ -957,6 +1011,7 @@ class _$BallotBoxCreated implements BallotBoxCreated {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -965,13 +1020,7 @@ class _$BallotBoxCreated implements BallotBoxCreated {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) {
     return ballotBoxCreated(sender, ballotBoxId, topic, electionState);
   }
@@ -982,6 +1031,7 @@ class _$BallotBoxCreated implements BallotBoxCreated {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -990,13 +1040,7 @@ class _$BallotBoxCreated implements BallotBoxCreated {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) {
     if (ballotBoxCreated != null) {
@@ -1010,15 +1054,12 @@ class _$BallotBoxCreated implements BallotBoxCreated {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) {
     return ballotBoxCreated(this);
   }
@@ -1028,15 +1069,12 @@ class _$BallotBoxCreated implements BallotBoxCreated {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) {
     if (ballotBoxCreated != null) {
@@ -1171,6 +1209,7 @@ class _$BallotBoxStarted implements BallotBoxStarted {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -1179,13 +1218,7 @@ class _$BallotBoxStarted implements BallotBoxStarted {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) {
     return ballotBoxStarted(sender, ballotBoxId, electionState, endTime);
   }
@@ -1196,6 +1229,7 @@ class _$BallotBoxStarted implements BallotBoxStarted {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -1204,13 +1238,7 @@ class _$BallotBoxStarted implements BallotBoxStarted {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) {
     if (ballotBoxStarted != null) {
@@ -1224,15 +1252,12 @@ class _$BallotBoxStarted implements BallotBoxStarted {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) {
     return ballotBoxStarted(this);
   }
@@ -1242,15 +1267,12 @@ class _$BallotBoxStarted implements BallotBoxStarted {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) {
     if (ballotBoxStarted != null) {
@@ -1273,203 +1295,6 @@ abstract class BallotBoxStarted implements CreateBallotEvents {
   BigInt? get endTime => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $BallotBoxStartedCopyWith<BallotBoxStarted> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BallotBoxEndedCopyWith<$Res> {
-  factory $BallotBoxEndedCopyWith(
-          BallotBoxEnded value, $Res Function(BallotBoxEnded) then) =
-      _$BallotBoxEndedCopyWithImpl<$Res>;
-  $Res call({String? sender, BigInt? ballotBoxId, String? electionState});
-}
-
-/// @nodoc
-class _$BallotBoxEndedCopyWithImpl<$Res>
-    extends _$CreateBallotEventsCopyWithImpl<$Res>
-    implements $BallotBoxEndedCopyWith<$Res> {
-  _$BallotBoxEndedCopyWithImpl(
-      BallotBoxEnded _value, $Res Function(BallotBoxEnded) _then)
-      : super(_value, (v) => _then(v as BallotBoxEnded));
-
-  @override
-  BallotBoxEnded get _value => super._value as BallotBoxEnded;
-
-  @override
-  $Res call({
-    Object? sender = freezed,
-    Object? ballotBoxId = freezed,
-    Object? electionState = freezed,
-  }) {
-    return _then(BallotBoxEnded(
-      sender: sender == freezed
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ballotBoxId: ballotBoxId == freezed
-          ? _value.ballotBoxId
-          : ballotBoxId // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
-      electionState: electionState == freezed
-          ? _value.electionState
-          : electionState // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$BallotBoxEnded implements BallotBoxEnded {
-  const _$BallotBoxEnded(
-      {required this.sender,
-      required this.ballotBoxId,
-      required this.electionState});
-
-  @override
-  final String? sender;
-  @override
-  final BigInt? ballotBoxId;
-  @override
-  final String? electionState;
-
-  @override
-  String toString() {
-    return 'CreateBallotEvents.ballotBoxEnded(sender: $sender, ballotBoxId: $ballotBoxId, electionState: $electionState)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is BallotBoxEnded &&
-            (identical(other.sender, sender) ||
-                const DeepCollectionEquality().equals(other.sender, sender)) &&
-            (identical(other.ballotBoxId, ballotBoxId) ||
-                const DeepCollectionEquality()
-                    .equals(other.ballotBoxId, ballotBoxId)) &&
-            (identical(other.electionState, electionState) ||
-                const DeepCollectionEquality()
-                    .equals(other.electionState, electionState)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(sender) ^
-      const DeepCollectionEquality().hash(ballotBoxId) ^
-      const DeepCollectionEquality().hash(electionState);
-
-  @JsonKey(ignore: true)
-  @override
-  $BallotBoxEndedCopyWith<BallotBoxEnded> get copyWith =>
-      _$BallotBoxEndedCopyWithImpl<BallotBoxEnded>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? topic) onEditTopicChanged,
-    required TResult Function(BigInt? candidateId, String? candidateName)
-        onEditCandidateName,
-    required TResult Function() onEditCandidateAdded,
-    required TResult Function(BigInt? candidateId) onRemoveCandidate,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            String? topic, String? electionState)
-        ballotBoxCreated,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            BigInt? electionState, BigInt? endTime)
-        ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
-    required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
-  }) {
-    return ballotBoxEnded(sender, ballotBoxId, electionState);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? topic)? onEditTopicChanged,
-    TResult Function(BigInt? candidateId, String? candidateName)?
-        onEditCandidateName,
-    TResult Function()? onEditCandidateAdded,
-    TResult Function(BigInt? candidateId)? onRemoveCandidate,
-    TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
-            String? electionState)?
-        ballotBoxCreated,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
-            BigInt? endTime)?
-        ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
-    TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
-    required TResult orElse(),
-  }) {
-    if (ballotBoxEnded != null) {
-      return ballotBoxEnded(sender, ballotBoxId, electionState);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
-    required TResult Function(OnEditCandidateName value) onEditCandidateName,
-    required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
-    required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
-    required TResult Function(BallotBoxCreated value) ballotBoxCreated,
-    required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
-    required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
-  }) {
-    return ballotBoxEnded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
-    TResult Function(OnEditCandidateName value)? onEditCandidateName,
-    TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
-    TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
-    TResult Function(BallotBoxCreated value)? ballotBoxCreated,
-    TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
-    TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
-    required TResult orElse(),
-  }) {
-    if (ballotBoxEnded != null) {
-      return ballotBoxEnded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class BallotBoxEnded implements CreateBallotEvents {
-  const factory BallotBoxEnded(
-      {required String? sender,
-      required BigInt? ballotBoxId,
-      required String? electionState}) = _$BallotBoxEnded;
-
-  String? get sender => throw _privateConstructorUsedError;
-  BigInt? get ballotBoxId => throw _privateConstructorUsedError;
-  String? get electionState => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $BallotBoxEndedCopyWith<BallotBoxEnded> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1516,6 +1341,7 @@ class _$CreateBallotBox implements CreateBallotBox {
     required TResult Function(String? topic) onEditTopicChanged,
     required TResult Function(BigInt? candidateId, String? candidateName)
         onEditCandidateName,
+    required TResult Function(BigInt? duration) onEditDuration,
     required TResult Function() onEditCandidateAdded,
     required TResult Function(BigInt? candidateId) onRemoveCandidate,
     required TResult Function(String? sender, BigInt? ballotBoxId,
@@ -1524,13 +1350,7 @@ class _$CreateBallotBox implements CreateBallotBox {
     required TResult Function(String? sender, BigInt? ballotBoxId,
             BigInt? electionState, BigInt? endTime)
         ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
     required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
   }) {
     return createBallotBox();
   }
@@ -1541,6 +1361,7 @@ class _$CreateBallotBox implements CreateBallotBox {
     TResult Function(String? topic)? onEditTopicChanged,
     TResult Function(BigInt? candidateId, String? candidateName)?
         onEditCandidateName,
+    TResult Function(BigInt? duration)? onEditDuration,
     TResult Function()? onEditCandidateAdded,
     TResult Function(BigInt? candidateId)? onRemoveCandidate,
     TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
@@ -1549,13 +1370,7 @@ class _$CreateBallotBox implements CreateBallotBox {
     TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
             BigInt? endTime)?
         ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
     TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
     required TResult orElse(),
   }) {
     if (createBallotBox != null) {
@@ -1569,15 +1384,12 @@ class _$CreateBallotBox implements CreateBallotBox {
   TResult map<TResult extends Object?>({
     required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
     required TResult Function(OnEditCandidateName value) onEditCandidateName,
+    required TResult Function(OnEditDuration value) onEditDuration,
     required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
     required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
     required TResult Function(BallotBoxCreated value) ballotBoxCreated,
     required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
     required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
   }) {
     return createBallotBox(this);
   }
@@ -1587,15 +1399,12 @@ class _$CreateBallotBox implements CreateBallotBox {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
     TResult Function(OnEditCandidateName value)? onEditCandidateName,
+    TResult Function(OnEditDuration value)? onEditDuration,
     TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
     TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
     TResult Function(BallotBoxCreated value)? ballotBoxCreated,
     TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
     TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
     required TResult orElse(),
   }) {
     if (createBallotBox != null) {
@@ -1607,409 +1416,4 @@ class _$CreateBallotBox implements CreateBallotBox {
 
 abstract class CreateBallotBox implements CreateBallotEvents {
   const factory CreateBallotBox() = _$CreateBallotBox;
-}
-
-/// @nodoc
-abstract class $StartElectionCopyWith<$Res> {
-  factory $StartElectionCopyWith(
-          StartElection value, $Res Function(StartElection) then) =
-      _$StartElectionCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$StartElectionCopyWithImpl<$Res>
-    extends _$CreateBallotEventsCopyWithImpl<$Res>
-    implements $StartElectionCopyWith<$Res> {
-  _$StartElectionCopyWithImpl(
-      StartElection _value, $Res Function(StartElection) _then)
-      : super(_value, (v) => _then(v as StartElection));
-
-  @override
-  StartElection get _value => super._value as StartElection;
-}
-
-/// @nodoc
-
-class _$StartElection implements StartElection {
-  const _$StartElection();
-
-  @override
-  String toString() {
-    return 'CreateBallotEvents.startElection()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is StartElection);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? topic) onEditTopicChanged,
-    required TResult Function(BigInt? candidateId, String? candidateName)
-        onEditCandidateName,
-    required TResult Function() onEditCandidateAdded,
-    required TResult Function(BigInt? candidateId) onRemoveCandidate,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            String? topic, String? electionState)
-        ballotBoxCreated,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            BigInt? electionState, BigInt? endTime)
-        ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
-    required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
-  }) {
-    return startElection();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? topic)? onEditTopicChanged,
-    TResult Function(BigInt? candidateId, String? candidateName)?
-        onEditCandidateName,
-    TResult Function()? onEditCandidateAdded,
-    TResult Function(BigInt? candidateId)? onRemoveCandidate,
-    TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
-            String? electionState)?
-        ballotBoxCreated,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
-            BigInt? endTime)?
-        ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
-    TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
-    required TResult orElse(),
-  }) {
-    if (startElection != null) {
-      return startElection();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
-    required TResult Function(OnEditCandidateName value) onEditCandidateName,
-    required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
-    required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
-    required TResult Function(BallotBoxCreated value) ballotBoxCreated,
-    required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
-    required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
-  }) {
-    return startElection(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
-    TResult Function(OnEditCandidateName value)? onEditCandidateName,
-    TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
-    TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
-    TResult Function(BallotBoxCreated value)? ballotBoxCreated,
-    TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
-    TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
-    required TResult orElse(),
-  }) {
-    if (startElection != null) {
-      return startElection(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class StartElection implements CreateBallotEvents {
-  const factory StartElection() = _$StartElection;
-}
-
-/// @nodoc
-abstract class $EndElectionCopyWith<$Res> {
-  factory $EndElectionCopyWith(
-          EndElection value, $Res Function(EndElection) then) =
-      _$EndElectionCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$EndElectionCopyWithImpl<$Res>
-    extends _$CreateBallotEventsCopyWithImpl<$Res>
-    implements $EndElectionCopyWith<$Res> {
-  _$EndElectionCopyWithImpl(
-      EndElection _value, $Res Function(EndElection) _then)
-      : super(_value, (v) => _then(v as EndElection));
-
-  @override
-  EndElection get _value => super._value as EndElection;
-}
-
-/// @nodoc
-
-class _$EndElection implements EndElection {
-  const _$EndElection();
-
-  @override
-  String toString() {
-    return 'CreateBallotEvents.endElection()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is EndElection);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? topic) onEditTopicChanged,
-    required TResult Function(BigInt? candidateId, String? candidateName)
-        onEditCandidateName,
-    required TResult Function() onEditCandidateAdded,
-    required TResult Function(BigInt? candidateId) onRemoveCandidate,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            String? topic, String? electionState)
-        ballotBoxCreated,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            BigInt? electionState, BigInt? endTime)
-        ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
-    required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
-  }) {
-    return endElection();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? topic)? onEditTopicChanged,
-    TResult Function(BigInt? candidateId, String? candidateName)?
-        onEditCandidateName,
-    TResult Function()? onEditCandidateAdded,
-    TResult Function(BigInt? candidateId)? onRemoveCandidate,
-    TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
-            String? electionState)?
-        ballotBoxCreated,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
-            BigInt? endTime)?
-        ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
-    TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
-    required TResult orElse(),
-  }) {
-    if (endElection != null) {
-      return endElection();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
-    required TResult Function(OnEditCandidateName value) onEditCandidateName,
-    required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
-    required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
-    required TResult Function(BallotBoxCreated value) ballotBoxCreated,
-    required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
-    required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
-  }) {
-    return endElection(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
-    TResult Function(OnEditCandidateName value)? onEditCandidateName,
-    TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
-    TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
-    TResult Function(BallotBoxCreated value)? ballotBoxCreated,
-    TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
-    TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
-    required TResult orElse(),
-  }) {
-    if (endElection != null) {
-      return endElection(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class EndElection implements CreateBallotEvents {
-  const factory EndElection() = _$EndElection;
-}
-
-/// @nodoc
-abstract class $VoteCopyWith<$Res> {
-  factory $VoteCopyWith(Vote value, $Res Function(Vote) then) =
-      _$VoteCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$VoteCopyWithImpl<$Res> extends _$CreateBallotEventsCopyWithImpl<$Res>
-    implements $VoteCopyWith<$Res> {
-  _$VoteCopyWithImpl(Vote _value, $Res Function(Vote) _then)
-      : super(_value, (v) => _then(v as Vote));
-
-  @override
-  Vote get _value => super._value as Vote;
-}
-
-/// @nodoc
-
-class _$Vote implements Vote {
-  const _$Vote();
-
-  @override
-  String toString() {
-    return 'CreateBallotEvents.vote()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Vote);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? topic) onEditTopicChanged,
-    required TResult Function(BigInt? candidateId, String? candidateName)
-        onEditCandidateName,
-    required TResult Function() onEditCandidateAdded,
-    required TResult Function(BigInt? candidateId) onRemoveCandidate,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            String? topic, String? electionState)
-        ballotBoxCreated,
-    required TResult Function(String? sender, BigInt? ballotBoxId,
-            BigInt? electionState, BigInt? endTime)
-        ballotBoxStarted,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)
-        ballotBoxEnded,
-    required TResult Function() createBallotBox,
-    required TResult Function() startElection,
-    required TResult Function() endElection,
-    required TResult Function() vote,
-  }) {
-    return vote();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? topic)? onEditTopicChanged,
-    TResult Function(BigInt? candidateId, String? candidateName)?
-        onEditCandidateName,
-    TResult Function()? onEditCandidateAdded,
-    TResult Function(BigInt? candidateId)? onRemoveCandidate,
-    TResult Function(String? sender, BigInt? ballotBoxId, String? topic,
-            String? electionState)?
-        ballotBoxCreated,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? electionState,
-            BigInt? endTime)?
-        ballotBoxStarted,
-    TResult Function(
-            String? sender, BigInt? ballotBoxId, String? electionState)?
-        ballotBoxEnded,
-    TResult Function()? createBallotBox,
-    TResult Function()? startElection,
-    TResult Function()? endElection,
-    TResult Function()? vote,
-    required TResult orElse(),
-  }) {
-    if (vote != null) {
-      return vote();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnEditTopicChanged value) onEditTopicChanged,
-    required TResult Function(OnEditCandidateName value) onEditCandidateName,
-    required TResult Function(OnEditCandidateAdded value) onEditCandidateAdded,
-    required TResult Function(OnRemoveCandidate value) onRemoveCandidate,
-    required TResult Function(BallotBoxCreated value) ballotBoxCreated,
-    required TResult Function(BallotBoxStarted value) ballotBoxStarted,
-    required TResult Function(BallotBoxEnded value) ballotBoxEnded,
-    required TResult Function(CreateBallotBox value) createBallotBox,
-    required TResult Function(StartElection value) startElection,
-    required TResult Function(EndElection value) endElection,
-    required TResult Function(Vote value) vote,
-  }) {
-    return vote(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnEditTopicChanged value)? onEditTopicChanged,
-    TResult Function(OnEditCandidateName value)? onEditCandidateName,
-    TResult Function(OnEditCandidateAdded value)? onEditCandidateAdded,
-    TResult Function(OnRemoveCandidate value)? onRemoveCandidate,
-    TResult Function(BallotBoxCreated value)? ballotBoxCreated,
-    TResult Function(BallotBoxStarted value)? ballotBoxStarted,
-    TResult Function(BallotBoxEnded value)? ballotBoxEnded,
-    TResult Function(CreateBallotBox value)? createBallotBox,
-    TResult Function(StartElection value)? startElection,
-    TResult Function(EndElection value)? endElection,
-    TResult Function(Vote value)? vote,
-    required TResult orElse(),
-  }) {
-    if (vote != null) {
-      return vote(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Vote implements CreateBallotEvents {
-  const factory Vote() = _$Vote;
 }

@@ -27,6 +27,9 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
           candidates.add(Candidate(name: ""));
           state = state.copyWith(candidates: candidates);
         },
+        onEditDuration: (value) async {
+            state = state.copyWith(duration: value.duration!);
+        },
         onRemoveCandidate: (value) async {
           state.candidates.removeAt(value.candidateId!.toInt());
           state = state.copyWith(candidates: state.candidates);
@@ -38,8 +41,6 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
           print(state.candidates.toString());
         },
 
-        startElection: (value) async {},
-        endElection: (value) async {},
         createBallotBox: (value) async {
           await _createBallotBox(_web3Service.createElection);
         },
@@ -52,6 +53,7 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
             id: Id(
               id: value.ballotBoxId,
             ),
+            electionState: ElectionState.CREATED,
             topic: Topic(topic: value.topic),
             transactionFailureOrSuccess: none(),
           );
@@ -63,23 +65,12 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
         },
         ballotBoxStarted: (value) async {
           state = state.copyWith(
-            electionState: ElectionState.CREATED,
-            endTime: value.endTime.toString(),
+            electionState: ElectionState.ONGOING,
+            duration: value.endTime!,
             status: "DONE",
             transactionFailureOrSuccess: none(),
           );
-        },
-        ballotBoxEnded: (value) async {
-          state = state.copyWith(
-            electionState: ElectionState.CONCLUDED,
-            transactionFailureOrSuccess: none(),
-          );
-        },
-        vote: (value) async {
-          await _vote(({boxId, candidateId}) => _web3Service.vote(
-              boxId: state.id,
-              candidateId: Id(id: BigInt.from(state.selectedCandidate))));
-        });
+      },);
   }
 
   Future _createBallotBox(
@@ -145,13 +136,12 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
     state = state.copyWith(
       isSubmitting: true,
       showError: true,
-      transactionFailureOrSuccess: optionOf(failureOrSuccess),
     );
   }
 
   Future _startElection(
     Future<Either<BlockchainFailures, Unit>> Function(
-            {required Id? boxId, required int? duration})
+            {required Id? boxId, required BigInt? duration})
         forwardCall,
   ) async {
     Either<BlockchainFailures, Unit>? failureOrSuccess;
@@ -162,29 +152,7 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
     );
     failureOrSuccess = await forwardCall(
       boxId: state.id,
-      duration: 60,
-    );
-    state = state.copyWith(
-      isSubmitting: false,
-      showError: true,
-      transactionFailureOrSuccess: optionOf(failureOrSuccess),
-    );
-  }
-
-  Future _vote(
-    Future<Either<BlockchainFailures, Unit>> Function(
-            {required Id? boxId, required Id? candidateId})
-        forwardCall,
-  ) async {
-    Either<BlockchainFailures, Unit>? failureOrSuccess;
-    state = state.copyWith(
-      isSubmitting: true,
-      status: "Voting...",
-      transactionFailureOrSuccess: none(),
-    );
-    failureOrSuccess = await forwardCall(
-      boxId: state.id,
-      candidateId: Id(id: BigInt.from(state.selectedCandidate)),
+      duration: state.duration,
     );
     state = state.copyWith(
       isSubmitting: false,

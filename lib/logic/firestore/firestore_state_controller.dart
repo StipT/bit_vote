@@ -1,3 +1,4 @@
+import 'package:bit_vote/domain/core/errors.dart';
 import 'package:bit_vote/domain/firestore/firestore_failures.dart';
 import 'package:bit_vote/domain/firestore/i_firebase_firestore.dart';
 import 'package:bit_vote/domain/firestore/user_data.dart';
@@ -25,14 +26,16 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
         );
       },
       readBallots: (value) async {
-/*        await _readBallots(
-          _firestoreService.readBallots(),
-        );*/
+        await _readBallots(
+          _firestoreService.readBallots,
+        );
       },
       storeBallots: (value) async {
-/*        await _storeBallot(
-          _firestoreService.storeBallot(ballotBoxId: ),
-        );*/
+        await _storeBallot(
+          _firestoreService.storeBallot,
+          value.id.valueObject!
+              .fold((l) => throw UnExpectedValueError(l), (r) => r),
+        );
       },
     );
   }
@@ -84,31 +87,32 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
   }
 
   Future _storeBallot(
-      Future<Either<FirestoreFailures, Unit>> Function(
-              {required String ballotBoxId})
-          forwardCall,
-      String ballotBoxId) async {
+    Future<Either<FirestoreFailures, Unit>> Function({required BigInt id})
+        forwardCall,
+    BigInt id,
+  ) async {
     Either<FirestoreFailures, Unit>? failureOrSuccess;
     state = state.copyWith(
       isSubmitting: true,
       requestFailureOrSuccess: none(),
     );
 
-    failureOrSuccess = await forwardCall(
-      ballotBoxId: ballotBoxId,
-    );
+    print('In store ballot');
+
+    failureOrSuccess = await forwardCall(id: id);
 
     state = state.copyWith(
       isSubmitting: false,
       showError: true,
       storeBallotFailureOrSuccess: optionOf(failureOrSuccess),
     );
+    print('STASTE AFTER sotre ballot ${state.ballots.toString()}');
   }
 
   Future _readBallots(
-    Future<Either<FirestoreFailures, List<String>>> Function() forwardCall,
+    Future<Either<FirestoreFailures, List<BigInt>>> Function() forwardCall,
   ) async {
-    Either<FirestoreFailures, List<String>>? failureOrSuccess;
+    Either<FirestoreFailures, List<BigInt>>? failureOrSuccess;
 
     state = state.copyWith(
       isSubmitting: true,
@@ -116,7 +120,7 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
     );
 
     failureOrSuccess = await forwardCall();
-    List<String> ballots =
+    List<BigInt> ballots =
         failureOrSuccess.fold((l) => throw ServerError(), (r) => r);
 
     state = state.copyWith(

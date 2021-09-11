@@ -64,11 +64,10 @@ class RecentBallotsView extends ConsumerWidget {
                                         Icons.done_all,
                                       ),
                                   )
-                                  : LinearGradientMask(
-                                      child: Icon(
-                                      Icons.access_time_outlined,
-                                      color: Colors.green,
-                                    )),
+                                  : Icon(
+                                  Icons.access_time_outlined,
+                                  color: Colors.green,
+                                    ),
                           tileColor: backgroundColorLight,
                           title: Container(
                             margin: EdgeInsets.only(left: deviceSize.width * 0.03),

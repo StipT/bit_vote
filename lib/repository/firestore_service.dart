@@ -3,14 +3,25 @@ import 'package:bit_vote/domain/firestore/firestore_failures.dart';
 import 'package:bit_vote/domain/firestore/firestore_value_objects.dart';
 import 'package:bit_vote/domain/firestore/i_firebase_firestore.dart';
 import 'package:bit_vote/domain/firestore/user_data.dart';
+import 'package:bit_vote/shared/string_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService implements IFirestoreService {
-  FirestoreService(this._firebaseFirestore);
+  static final FirestoreService _inst = FirestoreService._internal();
 
-  final FirebaseFirestore _firebaseFirestore;
+  FirestoreService._internal();
+
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+  factory FirestoreService() {
+    return _inst;
+  }
+
+  factory FirestoreService.instance() {
+    return _inst;
+  }
 
   @override
   Future<Either<FirestoreFailures, UserData>> readUserData() async {
@@ -23,10 +34,6 @@ class FirestoreService implements IFirestoreService {
           .then((value) {
         final document = value.docs[0];
         var documentData = document.data();
-        print(document.toString());
-
-        print(
-            " Read : ${documentData["userId"]}  ${documentData["ethAddress"]}  ${documentData["privateKey"]}");
         document.reference.update(documentData);
         return right(
           UserData(
@@ -59,7 +66,6 @@ class FirestoreService implements IFirestoreService {
           .get()
           .then((value) => value.docs[0].exists);
 
-      print('Does userExists ${doesUserExists}');
 
       if (!doesUserExists) {
         return _firebaseFirestore
@@ -71,12 +77,9 @@ class FirestoreService implements IFirestoreService {
           final document = value.docs[0];
           var documentData = document.data();
           print(document.toString());
-
           documentData["userId"] = FirebaseAuth.instance.currentUser!.uid;
-
           document.reference.update(documentData);
-          print(
-              " Store : ${documentData["userId"]}  ${documentData["ethAddress"]}  ${documentData["privateKey"]}");
+
           return right(
             UserData(
               address: Address(
@@ -102,13 +105,13 @@ class FirestoreService implements IFirestoreService {
 
   @override
   Future<Either<FirestoreFailures, Unit>> storeBallot(
-      {required String ballotBoxId}) async {
+      {required BigInt id}) async {
     try {
       _firebaseFirestore
           .collection("ballots")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({
-        'ballots': FieldValue.arrayUnion([ballotBoxId]),
+        'ballots': FieldValue.arrayUnion([id.toString()]),
       });
       return right(unit);
     } catch (e) {
@@ -121,17 +124,24 @@ class FirestoreService implements IFirestoreService {
   }
 
   @override
-  Future<Either<FirestoreFailures, List<String>>> readBallots() async {
+  Future<Either<FirestoreFailures, List<BigInt>>> readBallots() async {
     try {
       return _firebaseFirestore
           .collection("ballots")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get()
           .then((value) {
-        var documentData = value.data();
-        print(documentData.toString());
+        List<dynamic> documentData = value.data()!["ballots"];
+        List<BigInt> bigIntData =
+            documentData.map((e) => stringToBigInt(e)).toList();
+        print(bigIntData);
+        print(bigIntData.runtimeType);
 
-        return right(documentData!["ballots"]);
+        print(documentData.map((e) => stringToBigInt(e)));
+        print(documentData.map((e) => stringToBigInt(e)).toList().runtimeType);
+        List<BigInt> list = documentData.map((e) => stringToBigInt(e)).toList();
+
+        return right(bigIntData);
       });
     } catch (e) {
       if (e is FirebaseException && e.message!.contains('PERMISSION_DENIED')) {

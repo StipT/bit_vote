@@ -1,8 +1,7 @@
-import 'package:bit_vote/logic/firestore/firestore_events.dart';
 import 'package:bit_vote/repository/firebase_authentication.dart';
 import 'package:bit_vote/repository/firestore_service.dart';
 import 'package:bit_vote/repository/web3_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bit_vote/shared/string_util.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,7 +29,7 @@ final authProvider =
 final firestoreProvider =
     StateNotifierProvider<FirestoreStateController, FirestoreStates>((ref) {
   return FirestoreStateController(
-    FirestoreService(FirebaseFirestore.instance),
+    FirestoreService(),
   );
 });
 
@@ -53,7 +52,7 @@ final createBallotProvider = StateNotifierProvider.autoDispose<
 });
 
 final voteProvider =
-    StateNotifierProvider.autoDispose<VoteStateController, VoteStates>((ref) {
+    StateNotifierProvider.family.autoDispose<VoteStateController, VoteStates, Id>((ref, id) {
   final privateKey = ref
       .watch(firestoreProvider)
       .userData
@@ -67,7 +66,7 @@ final voteProvider =
       .address
       .valueObject!
       .fold((l) => throw UnExpectedValueError(l), (r) => r);
-  return VoteStateController(Web3Service(privateKey, ethAddress));
+  return VoteStateController(Web3Service(privateKey, ethAddress), id);
 });
 
 final recentBallotsProvider = FutureProvider.autoDispose((ref) {
@@ -84,23 +83,21 @@ final recentBallotsProvider = FutureProvider.autoDispose((ref) {
       .address
       .valueObject!
       .fold((l) => throw UnExpectedValueError(l), (r) => r);
+  FirestoreService _firestoreService = FirestoreService();
 
-/*  ref.watch(firestoreProvider.notifier).mapEventsToStates(const FirestoreEvents.readBallots()).whenComplete(() {
-    ref.watch(firestoreProvider).
-    //TODO OVDI
-  }
-  );*/
-
-  final web3Service = Web3Service(privateKey, ethAddress);
-  return web3Service.showBallotBoxes(
-      boxIds: List.of([
-    Id(id: BigInt.from(7)),
-    Id(id: BigInt.from(5)),
-    Id(id: BigInt.from(3))
-  ]));
+  return _firestoreService.readBallots().then((value) {
+    final List<Id> boxBallotsIds = value.fold((failure) {
+      print(failure.toString());
+      throw ServerError();
+    },
+        (success) => success.map((e) => Id(id: e)).toList());
+    final web3Service = Web3Service(privateKey, ethAddress);
+    return web3Service.showBallotBoxes(boxIds: boxBallotsIds);
+  });
 });
 
-final resultProvider = FutureProvider.family.autoDispose<Either<BlockchainFailures, BallotBoxDto>, Id>((ref, id) {
+final resultProvider = FutureProvider.family
+    .autoDispose<Either<BlockchainFailures, BallotBoxDto>, Id>((ref, id) {
   final privateKey = ref
       .watch(firestoreProvider)
       .userData

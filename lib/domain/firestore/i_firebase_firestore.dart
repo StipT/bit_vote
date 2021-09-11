@@ -8,8 +8,7 @@ abstract class IFirestoreService {
 
   Future<Either<FirestoreFailures, UserData>> readUserData();
 
-  Future<Either<FirestoreFailures, Unit>> storeBallot(
-      {required String ballotBoxId});
+  Future<Either<FirestoreFailures, Unit>> storeBallot({required BigInt id});
 
-  Future<Either<FirestoreFailures, List<String>>> readBallots();
+  Future<Either<FirestoreFailures, List<BigInt>>> readBallots();
 }

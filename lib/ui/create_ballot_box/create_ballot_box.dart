@@ -1,3 +1,4 @@
+import 'package:bit_vote/domain/blockchain/dto/election_state.dart';
 import 'package:bit_vote/logic/create_ballot_box/create_ballot_events.dart';
 import 'package:bit_vote/repository/web3_service.dart';
 import 'package:bit_vote/shared/app_colors.dart';
@@ -5,10 +6,12 @@ import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
 import 'package:bit_vote/shared/spinner_dialog.dart';
 import 'package:bit_vote/ui/share_screen/share_view.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -18,6 +21,8 @@ import 'add_candidate_item.dart';
 class CreateBallotBoxView extends ConsumerWidget {
   final formKey = GlobalKey<FormState>();
   bool firstBuild = true;
+  bool isNavigated = false;
+  TextEditingController _durationController = TextEditingController();
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -87,13 +92,18 @@ class CreateBallotBoxView extends ConsumerWidget {
           });
         },
         (success) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            Navigator.push<Widget>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShareView(),
-                ));
-          });
+          print(formStates.electionState.toString());
+          if(formStates.electionState == ElectionState.CREATED && !isNavigated) {
+            isNavigated = true;
+            SchedulerBinding.instance!.addPostFrameCallback((_) {
+              print('TUSAM PRIJE SHARE NAVIGACIJE');
+              Navigator.push<Widget>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShareView(formStates.id),
+                  ));
+            });
+          }
         },
       ),
     );
@@ -104,8 +114,9 @@ class CreateBallotBoxView extends ConsumerWidget {
           resizeToAvoidBottomInset: false,
           backgroundColor: backgroundColor,
           appBar: AppBar(
+            centerTitle: true,
             title: Text(
-              "Create new ballot box",
+              "Create ballot box",
               style: TextStyle(color: primaryColor),
             ),
             backgroundColor: backgroundColorLight,
@@ -128,13 +139,13 @@ class CreateBallotBoxView extends ConsumerWidget {
                             left: deviceSize.width * 0.025,
                             right: deviceSize.width * 0.025,
                             top: deviceSize.height * 0.02,
-                            bottom: deviceSize.height * 0.02),
+                            bottom: deviceSize.height * 0.01),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                             color: Colors.white),
                         child: Container(
                           alignment: Alignment.center,
-                          margin: EdgeInsets.all(2),
+                          margin: EdgeInsets.all(1),
                           decoration: BoxDecoration(
                             color: backgroundColorLight,
                             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -168,7 +179,7 @@ class CreateBallotBoxView extends ConsumerWidget {
                         ),
                       ),
                       Container(
-                        height: deviceSize.height * 0.65,
+                        height: deviceSize.height * 0.6,
                         child: ListView.builder(
                           itemCount: formStates.candidates.length + 1,
                           itemBuilder: (context, index) {
@@ -259,6 +270,79 @@ class CreateBallotBoxView extends ConsumerWidget {
                       ),
                     ],
                   ),
+                ),
+              ),
+              Container(
+                width: deviceSize.width * 0.7,
+                margin: EdgeInsets.only(
+                    top: deviceSize.height * 0.02,
+                    left: deviceSize.width * 0.025,
+                    right: deviceSize.width * 0.025,
+                    bottom: deviceSize.height * 0.02),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  color: backgroundColorLight,
+                ),
+                child: TextFormField(
+                  readOnly: true,
+                  controller: _durationController,
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    DatePicker.showTimePicker(context,
+                        theme: DatePickerTheme(
+                            backgroundColor: backgroundColorLight,
+                            cancelStyle: TextStyle(color: Colors.white),
+                            itemStyle: TextStyle(color: Colors.white),
+                            doneStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            containerHeight: deviceSize.height * 0.25),
+                        showTitleActions: true,
+                        onChanged: (date) {}, onConfirm: (date) {
+                      BigInt duration = BigInt.from((date.hour * 3600) +
+                          (date.minute * 60) +
+                          date.second);
+                      print(duration);
+                      formEvents.mapEventsToStates(
+                          CreateBallotEvents.onEditDuration(duration: duration));
+                      _durationController.text =
+                          "${date.hour}h ${date.minute}m ${date.second}s";
+                    }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  },
+                  validator: (value) {
+/*                      if (value == null || value.isEmpty) {
+                      return _appLocalizations.getText(
+                          "approveRequestDateValidation");
+                    } else if (stringToDateTime(value)
+                        .isBefore(DateTime.now())) {
+                      return _appLocalizations.getText(
+                          "approveRequestDateValidationEarlyDate");
+                    } else {
+                      return null;
+                    }*/
+                  },
+                  enableInteractiveSelection: false,
+                  textAlign: TextAlign.center,
+                  textAlignVertical: TextAlignVertical.center,
+                  maxLines: 1,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  textInputAction: TextInputAction.next,
+                  //  onChanged: (value) => formEvents.mapEventsToStates(CreateBallotEvents.onEditDuration(duration: value)),
+                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                  decoration: new InputDecoration(
+                      labelStyle: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                          left: 15, bottom: 15, top: 15, right: 15),
+                      hintText: "How long will election last?",
+                      hintStyle: TextStyle(fontSize: 14)),
                 ),
               ),
               Container(

@@ -1,7 +1,9 @@
+import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/logic/firestore/firestore_events.dart';
 import 'package:bit_vote/logic/vote/vote_events.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
+import 'package:bit_vote/shared/string_util.dart';
 import 'package:bit_vote/ui/auth_screen/login_view.dart';
 import 'package:bit_vote/ui/create_ballot_box/create_ballot_box.dart';
 import 'package:bit_vote/ui/menu_screen/qr_scanner_view.dart';
@@ -29,6 +31,8 @@ Future<PermissionStatus> _getCameraPermission() async {
 class MenuView extends ConsumerWidget {
   bool firstBuild = true;
 
+  TextEditingController idController = TextEditingController();
+
   void _initUser(ScopedReader watch) {
     if (firstBuild) {
       SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -41,8 +45,6 @@ class MenuView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final voteEvent = watch(voteProvider.notifier);
-    final voteStates = watch(voteProvider);
     _initUser(watch);
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -174,37 +176,34 @@ class MenuView extends ConsumerWidget {
                                           child: Column(
                                             children: [
                                               TextFormField(
-                                                decoration: new InputDecoration(
-                                                  suffixIcon: Icon(
-                                                    Icons.paste,
-                                                    color: primaryColor,
-                                                  ),
-                                                  border: InputBorder.none,
-                                                  focusedBorder:
-                                                      InputBorder.none,
-                                                  enabledBorder:
-                                                      InputBorder.none,
-                                                  errorBorder: InputBorder.none,
-                                                  disabledBorder:
-                                                      InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 15,
-                                                          bottom: 5,
-                                                          top: 11,
-                                                          right: 15),
-                                                  hintText: "election address",
-                                                ),
-                                                textAlign: TextAlign.center,
-                                                onChanged: (value) =>
-                                                    voteEvent.mapEventsToStates(
-                                                  VoteEvents.onBallotIdChange(
-                                                    id: BigInt.from(
-                                                      int.parse(value),
+                                                  decoration:
+                                                      new InputDecoration(
+                                                    suffixIcon: Icon(
+                                                      Icons.paste,
+                                                      color: primaryColor,
                                                     ),
+                                                    border: InputBorder.none,
+                                                    focusedBorder:
+                                                        InputBorder.none,
+                                                    enabledBorder:
+                                                        InputBorder.none,
+                                                    errorBorder:
+                                                        InputBorder.none,
+                                                    disabledBorder:
+                                                        InputBorder.none,
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            left: 15,
+                                                            bottom: 5,
+                                                            top: 11,
+                                                            right: 15),
+                                                    hintText:
+                                                        "election address",
                                                   ),
-                                                ),
-                                              ),
+                                                  textAlign: TextAlign.center,
+                                                  onChanged: (value) =>
+                                                      idController.text =
+                                                          value),
                                               Container(
                                                 height: 2,
                                                 decoration: BoxDecoration(
@@ -236,19 +235,16 @@ class MenuView extends ConsumerWidget {
                                           color: backgroundColorLight,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              voteEvent
-                                                  .mapEventsToStates(VoteEvents
-                                                      .showBallotBox())
-                                                  .then(
-                                                    (value) =>
-                                                        Navigator.push<Widget>(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            VoteView(),
-                                                      ),
-                                                    ),
-                                                  );
+                                              Navigator.push<Widget>(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VoteView(Id(
+                                                          id: stringToBigInt(
+                                                              idController
+                                                                  .text))),
+                                                ),
+                                              );
                                             },
                                             style: ButtonStyle(
                                               backgroundColor:
@@ -459,12 +455,11 @@ class MenuView extends ConsumerWidget {
           child:
               Container(child: LinearGradientMask(child: Icon(Icons.logout))),
           onPressed: () {
-            Navigator.pushAndRemoveUntil<Widget>(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => LoginView(),
-                ),
-                ModalRoute.withName("LoginView"));
+                ),);
           },
         ),
       ),

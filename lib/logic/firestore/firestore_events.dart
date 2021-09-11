@@ -1,3 +1,4 @@
+import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'firestore_events.freezed.dart';
@@ -10,5 +11,5 @@ class FirestoreEvents with _$FirestoreEvents {
 
   const factory FirestoreEvents.readBallots() = ReadBallots;
 
-  const factory FirestoreEvents.storeBallots() = StoreBallots;
+  const factory FirestoreEvents.storeBallots({required Id id}) = StoreBallots;
 }

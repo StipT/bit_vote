@@ -13,6 +13,10 @@ class CreateBallotEvents with _$CreateBallotEvents {
     required String? candidateName,
   }) = OnEditCandidateName;
 
+  const factory CreateBallotEvents.onEditDuration({
+    required BigInt? duration,
+  }) = OnEditDuration;
+
   const factory CreateBallotEvents.onEditCandidateAdded() = OnEditCandidateAdded;
 
   const factory CreateBallotEvents.onRemoveCandidate({
@@ -33,17 +37,5 @@ class CreateBallotEvents with _$CreateBallotEvents {
     required BigInt? endTime,
   }) = BallotBoxStarted;
 
-  const factory CreateBallotEvents.ballotBoxEnded({
-    required String? sender,
-    required BigInt? ballotBoxId,
-    required String? electionState,
-  }) = BallotBoxEnded;
-
   const factory CreateBallotEvents.createBallotBox() = CreateBallotBox;
-
-  const factory CreateBallotEvents.startElection() = StartElection;
-
-  const factory CreateBallotEvents.endElection() = EndElection;
-
-  const factory CreateBallotEvents.vote() = Vote;
 }

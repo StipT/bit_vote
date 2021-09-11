@@ -1,7 +1,5 @@
 import 'package:bit_vote/domain/blockchain/blockchain_failures.dart';
 import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
-import 'package:bit_vote/domain/blockchain/dto/candidate.dart';
-import 'package:bit_vote/domain/blockchain/dto/election_state.dart';
 import 'package:bit_vote/domain/blockchain/dto/voter.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

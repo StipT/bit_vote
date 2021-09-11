@@ -11,17 +11,6 @@ class VoteEvents with _$VoteEvents {
 
   const factory VoteEvents.showBallotBox() = ShowBallotBox;
 
-  const factory VoteEvents.votedSuccessfully({
-    required String? sender,
-    required BigInt? ballotBoxId,
-    required BigInt? candidateId,
-  }) = VotedSuccessfully;
-
-  const factory VoteEvents.addedAVoter({
-    required String? sender,
-    required BigInt? ballotBoxId,
-  }) = AddedAVoter;
-
   const factory VoteEvents.vote() = Vote;
 
   const factory VoteEvents.addVoter() = AddVoter;

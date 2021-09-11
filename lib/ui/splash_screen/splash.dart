@@ -8,7 +8,7 @@ class Splash extends ConsumerWidget {
 
     return Scaffold(
       body: Center(
-        child: Image.asset("assets/images/bitVote_image.png"),
+        child: Image.asset("assets/images/bitVote_app_logo.png"),
       ),
     );
   }

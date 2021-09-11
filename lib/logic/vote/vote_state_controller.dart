@@ -1,16 +1,23 @@
 import 'package:bit_vote/domain/blockchain/blockchain_failures.dart';
 import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/domain/blockchain/i_web3_service.dart';
+import 'package:bit_vote/domain/core/errors.dart';
 import 'package:bit_vote/logic/vote/ballot_box_dto.dart';
 import 'package:bit_vote/logic/vote/vote_events.dart';
 import 'package:bit_vote/logic/vote/vote_states.dart';
+import 'package:bit_vote/repository/firestore_service.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class VoteStateController extends StateNotifier<VoteStates> {
-  VoteStateController(this._web3Service) : super(VoteStates.initial());
+  VoteStateController(IWeb3Service web3Service, Id id)
+      : super(VoteStates.initial()) {
+    _web3Service = web3Service;
+    _showBallotBox(({boxId}) => _web3Service.showBallotBox(boxId: id));
+    print('U INITU');
+  }
 
-  final IWeb3Service _web3Service;
+  late final IWeb3Service _web3Service;
 
   Future mapEventsToStates(VoteEvents events) async {
     return events.map(
@@ -36,13 +43,6 @@ class VoteStateController extends StateNotifier<VoteStates> {
             boxId: state.id,
             candidateId: Id(id: BigInt.from(state.selectedCandidate))));
       },
-      addedAVoter: (value) async {
-        print("You have added a voter voter: ${value.sender}");
-      },
-      votedSuccessfully: (value) async {
-        print(
-            "You have added a votedSuccessfully candidateId: ${value.candidateId}");
-      },
     );
   }
 
@@ -61,6 +61,10 @@ class VoteStateController extends StateNotifier<VoteStates> {
       boxId: state.id,
       candidateId: Id(id: BigInt.from(state.selectedCandidate)),
     );
+    await FirestoreService.instance().storeBallot(
+        id: state.id.valueObject!
+            .fold((l) => throw UnExpectedValueError(l), (r) => r));
+
     state = state.copyWith(
       isSubmitting: false,
       showError: true,
@@ -86,16 +90,20 @@ class VoteStateController extends StateNotifier<VoteStates> {
     BallotBoxDto ballotBoxDto = failureOrSuccess.fold(
         (l) => throw BlockchainFailures.serverError(), (r) => r);
 
+    print("U web3 service showBallotBox ---  ${ballotBoxDto.toString()}");
+
     state = state.copyWith(
       id: ballotBoxDto.id,
       topic: ballotBoxDto.topic,
       electionState: ballotBoxDto.electionState,
       endTime: ballotBoxDto.endTime.toString(),
-      candidates:   ballotBoxDto.candidates,
+      candidates: ballotBoxDto.candidates,
       isSubmitting: false,
       showError: true,
       transactionFailureOrSuccess: none(),
     );
+
+    print("U web3 service showBallotBox ---  ${state.toString()}");
   }
 
   Future _addVoter(
@@ -116,7 +124,7 @@ class VoteStateController extends StateNotifier<VoteStates> {
     state = state.copyWith(
       isSubmitting: true,
       showError: true,
-      transactionFailureOrSuccess: optionOf(failureOrSuccess),
+      transactionFailureOrSuccess: none(),
     );
   }
 }

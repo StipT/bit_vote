@@ -28,8 +28,10 @@ class _$FirestoreEventsTearOff {
     return const ReadBallots();
   }
 
-  StoreBallots storeBallots() {
-    return const StoreBallots();
+  StoreBallots storeBallots({required Id id}) {
+    return StoreBallots(
+      id: id,
+    );
   }
 }
 
@@ -43,7 +45,7 @@ mixin _$FirestoreEvents {
     required TResult Function() readUserData,
     required TResult Function() storeUserData,
     required TResult Function() readBallots,
-    required TResult Function() storeBallots,
+    required TResult Function(Id id) storeBallots,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,7 +53,7 @@ mixin _$FirestoreEvents {
     TResult Function()? readUserData,
     TResult Function()? storeUserData,
     TResult Function()? readBallots,
-    TResult Function()? storeBallots,
+    TResult Function(Id id)? storeBallots,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -134,7 +136,7 @@ class _$ReadUserData implements ReadUserData {
     required TResult Function() readUserData,
     required TResult Function() storeUserData,
     required TResult Function() readBallots,
-    required TResult Function() storeBallots,
+    required TResult Function(Id id) storeBallots,
   }) {
     return readUserData();
   }
@@ -145,7 +147,7 @@ class _$ReadUserData implements ReadUserData {
     TResult Function()? readUserData,
     TResult Function()? storeUserData,
     TResult Function()? readBallots,
-    TResult Function()? storeBallots,
+    TResult Function(Id id)? storeBallots,
     required TResult orElse(),
   }) {
     if (readUserData != null) {
@@ -228,7 +230,7 @@ class _$StoreUserData implements StoreUserData {
     required TResult Function() readUserData,
     required TResult Function() storeUserData,
     required TResult Function() readBallots,
-    required TResult Function() storeBallots,
+    required TResult Function(Id id) storeBallots,
   }) {
     return storeUserData();
   }
@@ -239,7 +241,7 @@ class _$StoreUserData implements StoreUserData {
     TResult Function()? readUserData,
     TResult Function()? storeUserData,
     TResult Function()? readBallots,
-    TResult Function()? storeBallots,
+    TResult Function(Id id)? storeBallots,
     required TResult orElse(),
   }) {
     if (storeUserData != null) {
@@ -322,7 +324,7 @@ class _$ReadBallots implements ReadBallots {
     required TResult Function() readUserData,
     required TResult Function() storeUserData,
     required TResult Function() readBallots,
-    required TResult Function() storeBallots,
+    required TResult Function(Id id) storeBallots,
   }) {
     return readBallots();
   }
@@ -333,7 +335,7 @@ class _$ReadBallots implements ReadBallots {
     TResult Function()? readUserData,
     TResult Function()? storeUserData,
     TResult Function()? readBallots,
-    TResult Function()? storeBallots,
+    TResult Function(Id id)? storeBallots,
     required TResult orElse(),
   }) {
     if (readBallots != null) {
@@ -378,6 +380,7 @@ abstract class $StoreBallotsCopyWith<$Res> {
   factory $StoreBallotsCopyWith(
           StoreBallots value, $Res Function(StoreBallots) then) =
       _$StoreBallotsCopyWithImpl<$Res>;
+  $Res call({Id id});
 }
 
 /// @nodoc
@@ -390,25 +393,49 @@ class _$StoreBallotsCopyWithImpl<$Res>
 
   @override
   StoreBallots get _value => super._value as StoreBallots;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+  }) {
+    return _then(StoreBallots(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as Id,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$StoreBallots implements StoreBallots {
-  const _$StoreBallots();
+  const _$StoreBallots({required this.id});
+
+  @override
+  final Id id;
 
   @override
   String toString() {
-    return 'FirestoreEvents.storeBallots()';
+    return 'FirestoreEvents.storeBallots(id: $id)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is StoreBallots);
+    return identical(this, other) ||
+        (other is StoreBallots &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(id);
+
+  @JsonKey(ignore: true)
+  @override
+  $StoreBallotsCopyWith<StoreBallots> get copyWith =>
+      _$StoreBallotsCopyWithImpl<StoreBallots>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -416,9 +443,9 @@ class _$StoreBallots implements StoreBallots {
     required TResult Function() readUserData,
     required TResult Function() storeUserData,
     required TResult Function() readBallots,
-    required TResult Function() storeBallots,
+    required TResult Function(Id id) storeBallots,
   }) {
-    return storeBallots();
+    return storeBallots(id);
   }
 
   @override
@@ -427,11 +454,11 @@ class _$StoreBallots implements StoreBallots {
     TResult Function()? readUserData,
     TResult Function()? storeUserData,
     TResult Function()? readBallots,
-    TResult Function()? storeBallots,
+    TResult Function(Id id)? storeBallots,
     required TResult orElse(),
   }) {
     if (storeBallots != null) {
-      return storeBallots();
+      return storeBallots(id);
     }
     return orElse();
   }
@@ -464,5 +491,10 @@ class _$StoreBallots implements StoreBallots {
 }
 
 abstract class StoreBallots implements FirestoreEvents {
-  const factory StoreBallots() = _$StoreBallots;
+  const factory StoreBallots({required Id id}) = _$StoreBallots;
+
+  Id get id => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StoreBallotsCopyWith<StoreBallots> get copyWith =>
+      throw _privateConstructorUsedError;
 }

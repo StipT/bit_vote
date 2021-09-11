@@ -1,5 +1,13 @@
+import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/domain/core/errors.dart';
+import 'package:bit_vote/logic/firestore/firestore_events.dart';
+import 'package:bit_vote/logic/firestore/firestore_state_controller.dart';
+import 'package:bit_vote/logic/firestore/firestore_states.dart';
 import 'package:bit_vote/logic/vote/vote_events.dart';
+import 'package:bit_vote/logic/vote/vote_state_controller.dart';
+import 'package:bit_vote/logic/vote/vote_states.dart';
+import 'package:bit_vote/repository/firestore_service.dart';
+import 'package:bit_vote/repository/web3_service.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
@@ -14,15 +22,43 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../providers.dart';
 
+final voteViewProvider =
+StateNotifierProvider.family.autoDispose<VoteStateController, VoteStates, Id>((ref, id) {
+  final privateKey = ref
+      .watch(firestoreProvider)
+      .userData
+      .privateKey
+      .valueObject!
+      .fold((l) => throw UnExpectedValueError(l), (r) => r);
+
+  final ethAddress = ref
+      .watch(firestoreProvider)
+      .userData
+      .address
+      .valueObject!
+      .fold((l) => throw UnExpectedValueError(l), (r) => r);
+  return VoteStateController(Web3Service(privateKey, ethAddress), id);
+});
+
 class VoteView extends ConsumerWidget {
+  VoteView(this.id);
+  Id id;
+
   final formKey = GlobalKey<FormState>();
+  bool firstBuild = true;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final deviceSize = MediaQuery.of(context).size;
+    print('BUILD');
+    final formStates = watch(voteViewProvider(id));
+    final formEvents = watch(voteViewProvider(id).notifier);
 
-    final formStates = watch(voteProvider);
-    final formEvents = watch(voteProvider.notifier);
+
+    print(formStates.id.valueObject!.fold(
+            (l) => throw UnExpectedValueError(l), (r) => r));
+    print(formStates.topic.valueObject!.fold(
+            (l) => throw UnExpectedValueError(l), (r) => r));
 
     formStates.transactionFailureOrSuccess.fold(
       () {},
@@ -53,13 +89,13 @@ class VoteView extends ConsumerWidget {
           });
         },
         (success) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            Navigator.pushAndRemoveUntil<Widget>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MenuView(),
-                ), ModalRoute.withName("MenuView"));
-          });
+          print('SPREMAM BALOTE');
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MenuView(),
+              ),
+                  (route) => false);
         },
       ),
     );
@@ -176,8 +212,7 @@ class VoteView extends ConsumerWidget {
                                   alignment: Alignment.topCenter,
                                   child: TextFormField(
                                     enabled: false,
-                                    initialValue:
-                                        formStates.candidates[index],
+                                    initialValue: formStates.candidates[index],
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.center,
                                     maxLines: null,

@@ -19,13 +19,13 @@ class _$FirestoreStatesTearOff {
   _FirestoreStates call(
       {required UserData userData,
       required bool isSubmitting,
-      required List<String> ballots,
+      required List<BigInt> ballots,
       required bool showError,
       required Option<Either<FirestoreFailures, UserData>>
           requestFailureOrSuccess,
       required Option<Either<FirestoreFailures, Unit>>
           storeBallotFailureOrSuccess,
-      required Option<Either<FirestoreFailures, List<String>>>
+      required Option<Either<FirestoreFailures, List<BigInt>>>
           readBallotsFailureOrSuccess}) {
     return _FirestoreStates(
       userData: userData,
@@ -46,13 +46,13 @@ const $FirestoreStates = _$FirestoreStatesTearOff();
 mixin _$FirestoreStates {
   UserData get userData => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
-  List<String> get ballots => throw _privateConstructorUsedError;
+  List<BigInt> get ballots => throw _privateConstructorUsedError;
   bool get showError => throw _privateConstructorUsedError;
   Option<Either<FirestoreFailures, UserData>> get requestFailureOrSuccess =>
       throw _privateConstructorUsedError;
   Option<Either<FirestoreFailures, Unit>> get storeBallotFailureOrSuccess =>
       throw _privateConstructorUsedError;
-  Option<Either<FirestoreFailures, List<String>>>
+  Option<Either<FirestoreFailures, List<BigInt>>>
       get readBallotsFailureOrSuccess => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -68,11 +68,11 @@ abstract class $FirestoreStatesCopyWith<$Res> {
   $Res call(
       {UserData userData,
       bool isSubmitting,
-      List<String> ballots,
+      List<BigInt> ballots,
       bool showError,
       Option<Either<FirestoreFailures, UserData>> requestFailureOrSuccess,
       Option<Either<FirestoreFailures, Unit>> storeBallotFailureOrSuccess,
-      Option<Either<FirestoreFailures, List<String>>>
+      Option<Either<FirestoreFailures, List<BigInt>>>
           readBallotsFailureOrSuccess});
 
   $UserDataCopyWith<$Res> get userData;
@@ -109,7 +109,7 @@ class _$FirestoreStatesCopyWithImpl<$Res>
       ballots: ballots == freezed
           ? _value.ballots
           : ballots // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<BigInt>,
       showError: showError == freezed
           ? _value.showError
           : showError // ignore: cast_nullable_to_non_nullable
@@ -125,7 +125,7 @@ class _$FirestoreStatesCopyWithImpl<$Res>
       readBallotsFailureOrSuccess: readBallotsFailureOrSuccess == freezed
           ? _value.readBallotsFailureOrSuccess
           : readBallotsFailureOrSuccess // ignore: cast_nullable_to_non_nullable
-              as Option<Either<FirestoreFailures, List<String>>>,
+              as Option<Either<FirestoreFailures, List<BigInt>>>,
     ));
   }
 
@@ -147,11 +147,11 @@ abstract class _$FirestoreStatesCopyWith<$Res>
   $Res call(
       {UserData userData,
       bool isSubmitting,
-      List<String> ballots,
+      List<BigInt> ballots,
       bool showError,
       Option<Either<FirestoreFailures, UserData>> requestFailureOrSuccess,
       Option<Either<FirestoreFailures, Unit>> storeBallotFailureOrSuccess,
-      Option<Either<FirestoreFailures, List<String>>>
+      Option<Either<FirestoreFailures, List<BigInt>>>
           readBallotsFailureOrSuccess});
 
   @override
@@ -191,7 +191,7 @@ class __$FirestoreStatesCopyWithImpl<$Res>
       ballots: ballots == freezed
           ? _value.ballots
           : ballots // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<BigInt>,
       showError: showError == freezed
           ? _value.showError
           : showError // ignore: cast_nullable_to_non_nullable
@@ -207,7 +207,7 @@ class __$FirestoreStatesCopyWithImpl<$Res>
       readBallotsFailureOrSuccess: readBallotsFailureOrSuccess == freezed
           ? _value.readBallotsFailureOrSuccess
           : readBallotsFailureOrSuccess // ignore: cast_nullable_to_non_nullable
-              as Option<Either<FirestoreFailures, List<String>>>,
+              as Option<Either<FirestoreFailures, List<BigInt>>>,
     ));
   }
 }
@@ -229,7 +229,7 @@ class _$_FirestoreStates implements _FirestoreStates {
   @override
   final bool isSubmitting;
   @override
-  final List<String> ballots;
+  final List<BigInt> ballots;
   @override
   final bool showError;
   @override
@@ -237,7 +237,7 @@ class _$_FirestoreStates implements _FirestoreStates {
   @override
   final Option<Either<FirestoreFailures, Unit>> storeBallotFailureOrSuccess;
   @override
-  final Option<Either<FirestoreFailures, List<String>>>
+  final Option<Either<FirestoreFailures, List<BigInt>>>
       readBallotsFailureOrSuccess;
 
   @override
@@ -298,13 +298,13 @@ abstract class _FirestoreStates implements FirestoreStates {
   const factory _FirestoreStates(
       {required UserData userData,
       required bool isSubmitting,
-      required List<String> ballots,
+      required List<BigInt> ballots,
       required bool showError,
       required Option<Either<FirestoreFailures, UserData>>
           requestFailureOrSuccess,
       required Option<Either<FirestoreFailures, Unit>>
           storeBallotFailureOrSuccess,
-      required Option<Either<FirestoreFailures, List<String>>>
+      required Option<Either<FirestoreFailures, List<BigInt>>>
           readBallotsFailureOrSuccess}) = _$_FirestoreStates;
 
   @override
@@ -312,7 +312,7 @@ abstract class _FirestoreStates implements FirestoreStates {
   @override
   bool get isSubmitting => throw _privateConstructorUsedError;
   @override
-  List<String> get ballots => throw _privateConstructorUsedError;
+  List<BigInt> get ballots => throw _privateConstructorUsedError;
   @override
   bool get showError => throw _privateConstructorUsedError;
   @override
@@ -322,7 +322,7 @@ abstract class _FirestoreStates implements FirestoreStates {
   Option<Either<FirestoreFailures, Unit>> get storeBallotFailureOrSuccess =>
       throw _privateConstructorUsedError;
   @override
-  Option<Either<FirestoreFailures, List<String>>>
+  Option<Either<FirestoreFailures, List<BigInt>>>
       get readBallotsFailureOrSuccess => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

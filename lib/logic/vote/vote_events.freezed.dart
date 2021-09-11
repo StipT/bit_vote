@@ -26,25 +26,6 @@ class _$VoteEventsTearOff {
     return const ShowBallotBox();
   }
 
-  VotedSuccessfully votedSuccessfully(
-      {required String? sender,
-      required BigInt? ballotBoxId,
-      required BigInt? candidateId}) {
-    return VotedSuccessfully(
-      sender: sender,
-      ballotBoxId: ballotBoxId,
-      candidateId: candidateId,
-    );
-  }
-
-  AddedAVoter addedAVoter(
-      {required String? sender, required BigInt? ballotBoxId}) {
-    return AddedAVoter(
-      sender: sender,
-      ballotBoxId: ballotBoxId,
-    );
-  }
-
   Vote vote() {
     return const Vote();
   }
@@ -69,10 +50,6 @@ mixin _$VoteEvents {
   TResult when<TResult extends Object?>({
     required TResult Function(BigInt? id) onBallotIdChange,
     required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
     required TResult Function() vote,
     required TResult Function() addVoter,
     required TResult Function(BigInt? candidateId) onCandidateSelected,
@@ -82,9 +59,6 @@ mixin _$VoteEvents {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BigInt? id)? onBallotIdChange,
     TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
     TResult Function()? vote,
     TResult Function()? addVoter,
     TResult Function(BigInt? candidateId)? onCandidateSelected,
@@ -95,8 +69,6 @@ mixin _$VoteEvents {
   TResult map<TResult extends Object?>({
     required TResult Function(OnBallotIdChange value) onBallotIdChange,
     required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
     required TResult Function(Vote value) vote,
     required TResult Function(AddVoter value) addVoter,
     required TResult Function(OnCandidateSelected value) onCandidateSelected,
@@ -106,8 +78,6 @@ mixin _$VoteEvents {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnBallotIdChange value)? onBallotIdChange,
     TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
     TResult Function(Vote value)? vote,
     TResult Function(AddVoter value)? addVoter,
     TResult Function(OnCandidateSelected value)? onCandidateSelected,
@@ -199,10 +169,6 @@ class _$OnBallotIdChange implements OnBallotIdChange {
   TResult when<TResult extends Object?>({
     required TResult Function(BigInt? id) onBallotIdChange,
     required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
     required TResult Function() vote,
     required TResult Function() addVoter,
     required TResult Function(BigInt? candidateId) onCandidateSelected,
@@ -215,9 +181,6 @@ class _$OnBallotIdChange implements OnBallotIdChange {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BigInt? id)? onBallotIdChange,
     TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
     TResult Function()? vote,
     TResult Function()? addVoter,
     TResult Function(BigInt? candidateId)? onCandidateSelected,
@@ -234,8 +197,6 @@ class _$OnBallotIdChange implements OnBallotIdChange {
   TResult map<TResult extends Object?>({
     required TResult Function(OnBallotIdChange value) onBallotIdChange,
     required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
     required TResult Function(Vote value) vote,
     required TResult Function(AddVoter value) addVoter,
     required TResult Function(OnCandidateSelected value) onCandidateSelected,
@@ -248,8 +209,6 @@ class _$OnBallotIdChange implements OnBallotIdChange {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnBallotIdChange value)? onBallotIdChange,
     TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
     TResult Function(Vote value)? vote,
     TResult Function(AddVoter value)? addVoter,
     TResult Function(OnCandidateSelected value)? onCandidateSelected,
@@ -312,10 +271,6 @@ class _$ShowBallotBox implements ShowBallotBox {
   TResult when<TResult extends Object?>({
     required TResult Function(BigInt? id) onBallotIdChange,
     required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
     required TResult Function() vote,
     required TResult Function() addVoter,
     required TResult Function(BigInt? candidateId) onCandidateSelected,
@@ -328,9 +283,6 @@ class _$ShowBallotBox implements ShowBallotBox {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BigInt? id)? onBallotIdChange,
     TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
     TResult Function()? vote,
     TResult Function()? addVoter,
     TResult Function(BigInt? candidateId)? onCandidateSelected,
@@ -347,8 +299,6 @@ class _$ShowBallotBox implements ShowBallotBox {
   TResult map<TResult extends Object?>({
     required TResult Function(OnBallotIdChange value) onBallotIdChange,
     required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
     required TResult Function(Vote value) vote,
     required TResult Function(AddVoter value) addVoter,
     required TResult Function(OnCandidateSelected value) onCandidateSelected,
@@ -361,8 +311,6 @@ class _$ShowBallotBox implements ShowBallotBox {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnBallotIdChange value)? onBallotIdChange,
     TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
     TResult Function(Vote value)? vote,
     TResult Function(AddVoter value)? addVoter,
     TResult Function(OnCandidateSelected value)? onCandidateSelected,
@@ -377,328 +325,6 @@ class _$ShowBallotBox implements ShowBallotBox {
 
 abstract class ShowBallotBox implements VoteEvents {
   const factory ShowBallotBox() = _$ShowBallotBox;
-}
-
-/// @nodoc
-abstract class $VotedSuccessfullyCopyWith<$Res> {
-  factory $VotedSuccessfullyCopyWith(
-          VotedSuccessfully value, $Res Function(VotedSuccessfully) then) =
-      _$VotedSuccessfullyCopyWithImpl<$Res>;
-  $Res call({String? sender, BigInt? ballotBoxId, BigInt? candidateId});
-}
-
-/// @nodoc
-class _$VotedSuccessfullyCopyWithImpl<$Res>
-    extends _$VoteEventsCopyWithImpl<$Res>
-    implements $VotedSuccessfullyCopyWith<$Res> {
-  _$VotedSuccessfullyCopyWithImpl(
-      VotedSuccessfully _value, $Res Function(VotedSuccessfully) _then)
-      : super(_value, (v) => _then(v as VotedSuccessfully));
-
-  @override
-  VotedSuccessfully get _value => super._value as VotedSuccessfully;
-
-  @override
-  $Res call({
-    Object? sender = freezed,
-    Object? ballotBoxId = freezed,
-    Object? candidateId = freezed,
-  }) {
-    return _then(VotedSuccessfully(
-      sender: sender == freezed
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ballotBoxId: ballotBoxId == freezed
-          ? _value.ballotBoxId
-          : ballotBoxId // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
-      candidateId: candidateId == freezed
-          ? _value.candidateId
-          : candidateId // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$VotedSuccessfully implements VotedSuccessfully {
-  const _$VotedSuccessfully(
-      {required this.sender,
-      required this.ballotBoxId,
-      required this.candidateId});
-
-  @override
-  final String? sender;
-  @override
-  final BigInt? ballotBoxId;
-  @override
-  final BigInt? candidateId;
-
-  @override
-  String toString() {
-    return 'VoteEvents.votedSuccessfully(sender: $sender, ballotBoxId: $ballotBoxId, candidateId: $candidateId)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is VotedSuccessfully &&
-            (identical(other.sender, sender) ||
-                const DeepCollectionEquality().equals(other.sender, sender)) &&
-            (identical(other.ballotBoxId, ballotBoxId) ||
-                const DeepCollectionEquality()
-                    .equals(other.ballotBoxId, ballotBoxId)) &&
-            (identical(other.candidateId, candidateId) ||
-                const DeepCollectionEquality()
-                    .equals(other.candidateId, candidateId)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(sender) ^
-      const DeepCollectionEquality().hash(ballotBoxId) ^
-      const DeepCollectionEquality().hash(candidateId);
-
-  @JsonKey(ignore: true)
-  @override
-  $VotedSuccessfullyCopyWith<VotedSuccessfully> get copyWith =>
-      _$VotedSuccessfullyCopyWithImpl<VotedSuccessfully>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(BigInt? id) onBallotIdChange,
-    required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
-    required TResult Function() vote,
-    required TResult Function() addVoter,
-    required TResult Function(BigInt? candidateId) onCandidateSelected,
-  }) {
-    return votedSuccessfully(sender, ballotBoxId, candidateId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(BigInt? id)? onBallotIdChange,
-    TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
-    TResult Function()? vote,
-    TResult Function()? addVoter,
-    TResult Function(BigInt? candidateId)? onCandidateSelected,
-    required TResult orElse(),
-  }) {
-    if (votedSuccessfully != null) {
-      return votedSuccessfully(sender, ballotBoxId, candidateId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnBallotIdChange value) onBallotIdChange,
-    required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
-    required TResult Function(Vote value) vote,
-    required TResult Function(AddVoter value) addVoter,
-    required TResult Function(OnCandidateSelected value) onCandidateSelected,
-  }) {
-    return votedSuccessfully(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnBallotIdChange value)? onBallotIdChange,
-    TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
-    TResult Function(Vote value)? vote,
-    TResult Function(AddVoter value)? addVoter,
-    TResult Function(OnCandidateSelected value)? onCandidateSelected,
-    required TResult orElse(),
-  }) {
-    if (votedSuccessfully != null) {
-      return votedSuccessfully(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class VotedSuccessfully implements VoteEvents {
-  const factory VotedSuccessfully(
-      {required String? sender,
-      required BigInt? ballotBoxId,
-      required BigInt? candidateId}) = _$VotedSuccessfully;
-
-  String? get sender => throw _privateConstructorUsedError;
-  BigInt? get ballotBoxId => throw _privateConstructorUsedError;
-  BigInt? get candidateId => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $VotedSuccessfullyCopyWith<VotedSuccessfully> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AddedAVoterCopyWith<$Res> {
-  factory $AddedAVoterCopyWith(
-          AddedAVoter value, $Res Function(AddedAVoter) then) =
-      _$AddedAVoterCopyWithImpl<$Res>;
-  $Res call({String? sender, BigInt? ballotBoxId});
-}
-
-/// @nodoc
-class _$AddedAVoterCopyWithImpl<$Res> extends _$VoteEventsCopyWithImpl<$Res>
-    implements $AddedAVoterCopyWith<$Res> {
-  _$AddedAVoterCopyWithImpl(
-      AddedAVoter _value, $Res Function(AddedAVoter) _then)
-      : super(_value, (v) => _then(v as AddedAVoter));
-
-  @override
-  AddedAVoter get _value => super._value as AddedAVoter;
-
-  @override
-  $Res call({
-    Object? sender = freezed,
-    Object? ballotBoxId = freezed,
-  }) {
-    return _then(AddedAVoter(
-      sender: sender == freezed
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
-              as String?,
-      ballotBoxId: ballotBoxId == freezed
-          ? _value.ballotBoxId
-          : ballotBoxId // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$AddedAVoter implements AddedAVoter {
-  const _$AddedAVoter({required this.sender, required this.ballotBoxId});
-
-  @override
-  final String? sender;
-  @override
-  final BigInt? ballotBoxId;
-
-  @override
-  String toString() {
-    return 'VoteEvents.addedAVoter(sender: $sender, ballotBoxId: $ballotBoxId)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is AddedAVoter &&
-            (identical(other.sender, sender) ||
-                const DeepCollectionEquality().equals(other.sender, sender)) &&
-            (identical(other.ballotBoxId, ballotBoxId) ||
-                const DeepCollectionEquality()
-                    .equals(other.ballotBoxId, ballotBoxId)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(sender) ^
-      const DeepCollectionEquality().hash(ballotBoxId);
-
-  @JsonKey(ignore: true)
-  @override
-  $AddedAVoterCopyWith<AddedAVoter> get copyWith =>
-      _$AddedAVoterCopyWithImpl<AddedAVoter>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(BigInt? id) onBallotIdChange,
-    required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
-    required TResult Function() vote,
-    required TResult Function() addVoter,
-    required TResult Function(BigInt? candidateId) onCandidateSelected,
-  }) {
-    return addedAVoter(sender, ballotBoxId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(BigInt? id)? onBallotIdChange,
-    TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
-    TResult Function()? vote,
-    TResult Function()? addVoter,
-    TResult Function(BigInt? candidateId)? onCandidateSelected,
-    required TResult orElse(),
-  }) {
-    if (addedAVoter != null) {
-      return addedAVoter(sender, ballotBoxId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnBallotIdChange value) onBallotIdChange,
-    required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
-    required TResult Function(Vote value) vote,
-    required TResult Function(AddVoter value) addVoter,
-    required TResult Function(OnCandidateSelected value) onCandidateSelected,
-  }) {
-    return addedAVoter(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnBallotIdChange value)? onBallotIdChange,
-    TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
-    TResult Function(Vote value)? vote,
-    TResult Function(AddVoter value)? addVoter,
-    TResult Function(OnCandidateSelected value)? onCandidateSelected,
-    required TResult orElse(),
-  }) {
-    if (addedAVoter != null) {
-      return addedAVoter(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AddedAVoter implements VoteEvents {
-  const factory AddedAVoter(
-      {required String? sender, required BigInt? ballotBoxId}) = _$AddedAVoter;
-
-  String? get sender => throw _privateConstructorUsedError;
-  BigInt? get ballotBoxId => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $AddedAVoterCopyWith<AddedAVoter> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -740,10 +366,6 @@ class _$Vote implements Vote {
   TResult when<TResult extends Object?>({
     required TResult Function(BigInt? id) onBallotIdChange,
     required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
     required TResult Function() vote,
     required TResult Function() addVoter,
     required TResult Function(BigInt? candidateId) onCandidateSelected,
@@ -756,9 +378,6 @@ class _$Vote implements Vote {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BigInt? id)? onBallotIdChange,
     TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
     TResult Function()? vote,
     TResult Function()? addVoter,
     TResult Function(BigInt? candidateId)? onCandidateSelected,
@@ -775,8 +394,6 @@ class _$Vote implements Vote {
   TResult map<TResult extends Object?>({
     required TResult Function(OnBallotIdChange value) onBallotIdChange,
     required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
     required TResult Function(Vote value) vote,
     required TResult Function(AddVoter value) addVoter,
     required TResult Function(OnCandidateSelected value) onCandidateSelected,
@@ -789,8 +406,6 @@ class _$Vote implements Vote {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnBallotIdChange value)? onBallotIdChange,
     TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
     TResult Function(Vote value)? vote,
     TResult Function(AddVoter value)? addVoter,
     TResult Function(OnCandidateSelected value)? onCandidateSelected,
@@ -846,10 +461,6 @@ class _$AddVoter implements AddVoter {
   TResult when<TResult extends Object?>({
     required TResult Function(BigInt? id) onBallotIdChange,
     required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
     required TResult Function() vote,
     required TResult Function() addVoter,
     required TResult Function(BigInt? candidateId) onCandidateSelected,
@@ -862,9 +473,6 @@ class _$AddVoter implements AddVoter {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BigInt? id)? onBallotIdChange,
     TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
     TResult Function()? vote,
     TResult Function()? addVoter,
     TResult Function(BigInt? candidateId)? onCandidateSelected,
@@ -881,8 +489,6 @@ class _$AddVoter implements AddVoter {
   TResult map<TResult extends Object?>({
     required TResult Function(OnBallotIdChange value) onBallotIdChange,
     required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
     required TResult Function(Vote value) vote,
     required TResult Function(AddVoter value) addVoter,
     required TResult Function(OnCandidateSelected value) onCandidateSelected,
@@ -895,8 +501,6 @@ class _$AddVoter implements AddVoter {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnBallotIdChange value)? onBallotIdChange,
     TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
     TResult Function(Vote value)? vote,
     TResult Function(AddVoter value)? addVoter,
     TResult Function(OnCandidateSelected value)? onCandidateSelected,
@@ -981,10 +585,6 @@ class _$OnCandidateSelected implements OnCandidateSelected {
   TResult when<TResult extends Object?>({
     required TResult Function(BigInt? id) onBallotIdChange,
     required TResult Function() showBallotBox,
-    required TResult Function(
-            String? sender, BigInt? ballotBoxId, BigInt? candidateId)
-        votedSuccessfully,
-    required TResult Function(String? sender, BigInt? ballotBoxId) addedAVoter,
     required TResult Function() vote,
     required TResult Function() addVoter,
     required TResult Function(BigInt? candidateId) onCandidateSelected,
@@ -997,9 +597,6 @@ class _$OnCandidateSelected implements OnCandidateSelected {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BigInt? id)? onBallotIdChange,
     TResult Function()? showBallotBox,
-    TResult Function(String? sender, BigInt? ballotBoxId, BigInt? candidateId)?
-        votedSuccessfully,
-    TResult Function(String? sender, BigInt? ballotBoxId)? addedAVoter,
     TResult Function()? vote,
     TResult Function()? addVoter,
     TResult Function(BigInt? candidateId)? onCandidateSelected,
@@ -1016,8 +613,6 @@ class _$OnCandidateSelected implements OnCandidateSelected {
   TResult map<TResult extends Object?>({
     required TResult Function(OnBallotIdChange value) onBallotIdChange,
     required TResult Function(ShowBallotBox value) showBallotBox,
-    required TResult Function(VotedSuccessfully value) votedSuccessfully,
-    required TResult Function(AddedAVoter value) addedAVoter,
     required TResult Function(Vote value) vote,
     required TResult Function(AddVoter value) addVoter,
     required TResult Function(OnCandidateSelected value) onCandidateSelected,
@@ -1030,8 +625,6 @@ class _$OnCandidateSelected implements OnCandidateSelected {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnBallotIdChange value)? onBallotIdChange,
     TResult Function(ShowBallotBox value)? showBallotBox,
-    TResult Function(VotedSuccessfully value)? votedSuccessfully,
-    TResult Function(AddedAVoter value)? addedAVoter,
     TResult Function(Vote value)? vote,
     TResult Function(AddVoter value)? addVoter,
     TResult Function(OnCandidateSelected value)? onCandidateSelected,

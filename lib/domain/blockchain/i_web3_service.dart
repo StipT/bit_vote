@@ -25,7 +25,7 @@ abstract class IWeb3Service {
       {required Topic? topic});
 
   Future<Either<BlockchainFailures, Unit>> startElection(
-      {required Id? boxId, required int? duration});
+      {required Id? boxId, required BigInt? duration});
 
   Future<Either<BlockchainFailures, Unit>> endElection({required Id? boxId});
 

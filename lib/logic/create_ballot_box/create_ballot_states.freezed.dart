@@ -23,7 +23,7 @@ class _$CreateBallotStatesTearOff {
       required List<Candidate> candidates,
       required List<Voter> voters,
       required ElectionState electionState,
-      required String endTime,
+      required BigInt duration,
       required bool isSubmitting,
       required bool showError,
       required String status,
@@ -37,7 +37,7 @@ class _$CreateBallotStatesTearOff {
       candidates: candidates,
       voters: voters,
       electionState: electionState,
-      endTime: endTime,
+      duration: duration,
       isSubmitting: isSubmitting,
       showError: showError,
       status: status,
@@ -58,7 +58,7 @@ mixin _$CreateBallotStates {
   List<Candidate> get candidates => throw _privateConstructorUsedError;
   List<Voter> get voters => throw _privateConstructorUsedError;
   ElectionState get electionState => throw _privateConstructorUsedError;
-  String get endTime => throw _privateConstructorUsedError;
+  BigInt get duration => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
   bool get showError => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
@@ -83,7 +83,7 @@ abstract class $CreateBallotStatesCopyWith<$Res> {
       List<Candidate> candidates,
       List<Voter> voters,
       ElectionState electionState,
-      String endTime,
+      BigInt duration,
       bool isSubmitting,
       bool showError,
       String status,
@@ -108,7 +108,7 @@ class _$CreateBallotStatesCopyWithImpl<$Res>
     Object? candidates = freezed,
     Object? voters = freezed,
     Object? electionState = freezed,
-    Object? endTime = freezed,
+    Object? duration = freezed,
     Object? isSubmitting = freezed,
     Object? showError = freezed,
     Object? status = freezed,
@@ -140,10 +140,10 @@ class _$CreateBallotStatesCopyWithImpl<$Res>
           ? _value.electionState
           : electionState // ignore: cast_nullable_to_non_nullable
               as ElectionState,
-      endTime: endTime == freezed
-          ? _value.endTime
-          : endTime // ignore: cast_nullable_to_non_nullable
-              as String,
+      duration: duration == freezed
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as BigInt,
       isSubmitting: isSubmitting == freezed
           ? _value.isSubmitting
           : isSubmitting // ignore: cast_nullable_to_non_nullable
@@ -182,7 +182,7 @@ abstract class _$CreateBallotStatesCopyWith<$Res>
       List<Candidate> candidates,
       List<Voter> voters,
       ElectionState electionState,
-      String endTime,
+      BigInt duration,
       bool isSubmitting,
       bool showError,
       String status,
@@ -209,7 +209,7 @@ class __$CreateBallotStatesCopyWithImpl<$Res>
     Object? candidates = freezed,
     Object? voters = freezed,
     Object? electionState = freezed,
-    Object? endTime = freezed,
+    Object? duration = freezed,
     Object? isSubmitting = freezed,
     Object? showError = freezed,
     Object? status = freezed,
@@ -241,10 +241,10 @@ class __$CreateBallotStatesCopyWithImpl<$Res>
           ? _value.electionState
           : electionState // ignore: cast_nullable_to_non_nullable
               as ElectionState,
-      endTime: endTime == freezed
-          ? _value.endTime
-          : endTime // ignore: cast_nullable_to_non_nullable
-              as String,
+      duration: duration == freezed
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as BigInt,
       isSubmitting: isSubmitting == freezed
           ? _value.isSubmitting
           : isSubmitting // ignore: cast_nullable_to_non_nullable
@@ -279,7 +279,7 @@ class _$_CreateBallotStates implements _CreateBallotStates {
       required this.candidates,
       required this.voters,
       required this.electionState,
-      required this.endTime,
+      required this.duration,
       required this.isSubmitting,
       required this.showError,
       required this.status,
@@ -299,7 +299,7 @@ class _$_CreateBallotStates implements _CreateBallotStates {
   @override
   final ElectionState electionState;
   @override
-  final String endTime;
+  final BigInt duration;
   @override
   final bool isSubmitting;
   @override
@@ -313,7 +313,7 @@ class _$_CreateBallotStates implements _CreateBallotStates {
 
   @override
   String toString() {
-    return 'CreateBallotStates(id: $id, adminAddress: $adminAddress, topic: $topic, candidates: $candidates, voters: $voters, electionState: $electionState, endTime: $endTime, isSubmitting: $isSubmitting, showError: $showError, status: $status, selectedCandidate: $selectedCandidate, transactionFailureOrSuccess: $transactionFailureOrSuccess)';
+    return 'CreateBallotStates(id: $id, adminAddress: $adminAddress, topic: $topic, candidates: $candidates, voters: $voters, electionState: $electionState, duration: $duration, isSubmitting: $isSubmitting, showError: $showError, status: $status, selectedCandidate: $selectedCandidate, transactionFailureOrSuccess: $transactionFailureOrSuccess)';
   }
 
   @override
@@ -335,9 +335,9 @@ class _$_CreateBallotStates implements _CreateBallotStates {
             (identical(other.electionState, electionState) ||
                 const DeepCollectionEquality()
                     .equals(other.electionState, electionState)) &&
-            (identical(other.endTime, endTime) ||
+            (identical(other.duration, duration) ||
                 const DeepCollectionEquality()
-                    .equals(other.endTime, endTime)) &&
+                    .equals(other.duration, duration)) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubmitting, isSubmitting)) &&
@@ -365,7 +365,7 @@ class _$_CreateBallotStates implements _CreateBallotStates {
       const DeepCollectionEquality().hash(candidates) ^
       const DeepCollectionEquality().hash(voters) ^
       const DeepCollectionEquality().hash(electionState) ^
-      const DeepCollectionEquality().hash(endTime) ^
+      const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(showError) ^
       const DeepCollectionEquality().hash(status) ^
@@ -386,7 +386,7 @@ abstract class _CreateBallotStates implements CreateBallotStates {
       required List<Candidate> candidates,
       required List<Voter> voters,
       required ElectionState electionState,
-      required String endTime,
+      required BigInt duration,
       required bool isSubmitting,
       required bool showError,
       required String status,
@@ -407,7 +407,7 @@ abstract class _CreateBallotStates implements CreateBallotStates {
   @override
   ElectionState get electionState => throw _privateConstructorUsedError;
   @override
-  String get endTime => throw _privateConstructorUsedError;
+  BigInt get duration => throw _privateConstructorUsedError;
   @override
   bool get isSubmitting => throw _privateConstructorUsedError;
   @override

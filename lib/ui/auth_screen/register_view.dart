@@ -1,9 +1,16 @@
 import 'package:bit_vote/logic/auth/auth_events.dart';
+import 'package:bit_vote/logic/auth/auth_state_controller.dart';
+import 'package:bit_vote/logic/auth/auth_states.dart';
 import 'package:bit_vote/logic/firestore/firestore_events.dart';
+import 'package:bit_vote/logic/firestore/firestore_state_controller.dart';
+import 'package:bit_vote/logic/firestore/firestore_states.dart';
+import 'package:bit_vote/repository/firebase_authentication.dart';
+import 'package:bit_vote/repository/firestore_service.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
 import 'package:bit_vote/ui/auth_screen/login_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -11,7 +18,19 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../providers.dart';
+final registerAuthProvider =
+    StateNotifierProvider.autoDispose<AuthStateController, AuthStates>((ref) {
+  final firebaseAuth = FirebaseAuth.instance;
+  final firebaseAuthService = FirebaseAuthentication(firebaseAuth);
+  return AuthStateController(firebaseAuthService);
+});
+
+final registerFirestoreProvider =
+    StateNotifierProvider<FirestoreStateController, FirestoreStates>((ref) {
+  return FirestoreStateController(
+    FirestoreService(),
+  );
+});
 
 class RegisterView extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
@@ -20,11 +39,11 @@ class RegisterView extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final deviceSize = MediaQuery.of(context).size;
 
-    final formStates = watch(authProvider);
-    final formEvents = watch(authProvider.notifier);
+    final formStates = watch(registerAuthProvider);
+    final formEvents = watch(registerAuthProvider.notifier);
 
-    final firestoreStates = watch(firestoreProvider);
-    final firestoreEvents = watch(firestoreProvider.notifier);
+    final firestoreStates = watch(registerFirestoreProvider);
+    final firestoreEvents = watch(registerFirestoreProvider.notifier);
 
     formStates.authFailureOrSuccess.fold(
       () {},

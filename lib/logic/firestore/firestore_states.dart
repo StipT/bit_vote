@@ -10,16 +10,16 @@ class FirestoreStates with _$FirestoreStates {
   const factory FirestoreStates({
     required UserData userData,
     required bool isSubmitting,
-    required List<String> ballots,
+    required List<BigInt> ballots,
     required bool showError,
     required Option<Either<FirestoreFailures, UserData>>requestFailureOrSuccess,
     required Option<Either<FirestoreFailures, Unit>>storeBallotFailureOrSuccess,
-    required Option<Either<FirestoreFailures, List<String>>>readBallotsFailureOrSuccess,
+    required Option<Either<FirestoreFailures, List<BigInt>>>readBallotsFailureOrSuccess,
   }) = _FirestoreStates;
 
   factory FirestoreStates.initial() => FirestoreStates(
         userData: UserData.initial(),
-        ballots: List<String>.empty(),
+        ballots: List<BigInt>.empty(),
         isSubmitting: false,
         showError: false,
         requestFailureOrSuccess: none(),

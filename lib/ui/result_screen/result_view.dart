@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/domain/core/errors.dart';
 import 'package:bit_vote/shared/app_colors.dart';
@@ -13,9 +15,12 @@ import '../../providers.dart';
 
 class ResultView extends ConsumerWidget {
   final formKey = GlobalKey<FormState>();
+
   ResultView(this.ballotBoxId);
 
   late final Id ballotBoxId;
+
+  late Timer _timer;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -97,10 +102,12 @@ class ResultView extends ConsumerWidget {
                               decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30)),
-                                gradient: ballotBox.votes.indexOf(ballotBox
-                                            .votes
-                                            .reduce((a, b) => a > b ? a : b)) ==
-                                        index
+                                gradient: isPassed(
+                                            ballotBox.endTime.toString()) &&
+                                        (ballotBox.votes.indexOf(ballotBox.votes
+                                                .reduce(
+                                                    (a, b) => a > b ? a : b)) ==
+                                            index)
                                     ? LinearGradient(
                                         colors: [
                                           Colors.red,
@@ -151,7 +158,9 @@ class ResultView extends ConsumerWidget {
                                     ),
                                     suffix: Container(
                                       child: Text(
-                                        "${(bigIntToInt(ballotBox.votes[index]) / (ballotBox.votes.fold(0, ((a, b) => a + bigIntToInt(b)))) * 100).toInt()} %",
+                                        isPassed(ballotBox.endTime.toString())
+                                            ? "${(bigIntToInt(ballotBox.votes[index]) / (ballotBox.votes.fold(0, ((a, b) => a + bigIntToInt(b)))) * 100).toInt()} %"
+                                            : "",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: primaryColor,
@@ -179,9 +188,15 @@ class ResultView extends ConsumerWidget {
                         alignment: Alignment.center,
                         width: deviceSize.width * 0.8,
                         child: Center(
-                          child: Text(isPassed(ballotBox.endTime.toString())
-                              ? "Election has concluded."
-                              : "Election concludes in ${timeLeft(ballotBox.endTime.toString())}.", style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, fontSize: 14),),
+                          child: Text(
+                            isPassed(ballotBox.endTime.toString())
+                                ? "Election has concluded."
+                                : "Election concludes in ${timeLeft(ballotBox.endTime.toString())}.",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                fontSize: 14),
+                          ),
                         )),
                   ],
                 );
