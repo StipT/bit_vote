@@ -13,6 +13,9 @@ import 'package:web3dart/web3dart.dart';
 class Web3Service implements IWeb3Service {
   static final Web3Service _inst = Web3Service._internal();
 
+
+
+
   Web3Service._internal();
 
   factory Web3Service(String privateKey, String ethAddressHex) {
@@ -180,13 +183,13 @@ class Web3Service implements IWeb3Service {
   Future<Either<BlockchainFailures, Unit>> vote(
       {required Id? boxId, required Id? candidateId}) async {
     final boxIdValue =
-    boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
     final candidateIdValue = candidateId!.valueObject!
         .fold((l) => throw UnExpectedValueError(l), id);
 
     try {
       var response =
-      await _sendTransaction("vote", [boxIdValue, candidateIdValue]);
+          await _sendTransaction("vote", [boxIdValue, candidateIdValue]);
       print(response);
       return right(unit);
     } catch (e) {
@@ -198,7 +201,7 @@ class Web3Service implements IWeb3Service {
   Future<Either<BlockchainFailures, Unit>> addCandidate(
       {required Id? boxId, required String name}) async {
     final boxIdValue =
-    boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
 
     print(boxIdValue);
     try {
@@ -211,12 +214,10 @@ class Web3Service implements IWeb3Service {
     }
   }
 
-
-
   Future<Either<BlockchainFailures, Unit>> addVoter(
       {required Id? boxId}) async {
     final boxIdValue =
-    boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+        boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
     try {
       var response = await _sendTransaction("addVoter", [boxIdValue]);
       print(response);
@@ -226,8 +227,6 @@ class Web3Service implements IWeb3Service {
       return left(const BlockchainFailures.transactionFailed());
     }
   }
-
-
 
   Future<Either<BlockchainFailures, Unit>> endElection(
       {required Id? boxId}) async {
@@ -242,10 +241,6 @@ class Web3Service implements IWeb3Service {
       return left(const BlockchainFailures.transactionFailed());
     }
   }
-
-
-
-
 
   void ballotBoxCreatedEvent(
       void onBallotBoxCreated(String sender, BigInt ballotBoxId, String topic,
@@ -289,7 +284,7 @@ class Web3Service implements IWeb3Service {
     )
         .listen((event) {
       final decoded =
-      votedSuccessfully.decodeResults(event.topics!, event.data!);
+          votedSuccessfully.decodeResults(event.topics!, event.data!);
       final sender = decoded[0] as EthereumAddress;
       if (ethAddress == sender) {
         final ballotBoxId = decoded[1] as BigInt;
@@ -403,4 +398,23 @@ class Web3Service implements IWeb3Service {
     candidates.removeLast();
     return candidates;
   }
+
+
+  Future<Either<BlockchainFailures, Unit>> startElection({required Id? boxId, required BigInt? duration}) async {
+    final boxIdValue =
+    boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+
+    print('boxId');
+    BigInt durationZ = duration!;
+    try {
+      var response =
+      await _sendTransaction("startElection", [boxIdValue, durationZ]);
+      print(response);
+      return right(unit);
+    } catch (e) {
+      print(e.toString());
+      return left(const BlockchainFailures.transactionFailed());
+    }
+  }
+
 }

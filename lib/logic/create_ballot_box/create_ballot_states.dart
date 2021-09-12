@@ -41,3 +41,4 @@ class CreateBallotStates with _$CreateBallotStates {
         transactionFailureOrSuccess: none(),
       );
 }
+

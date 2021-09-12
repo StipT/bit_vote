@@ -10,14 +10,6 @@ abstract class IWeb3Service {
   Future<Either<BlockchainFailures, String>> displayCandidate(
       {required Id? boxId, required Id? candidateId});
 
-  Future<Either<BlockchainFailures, String>> showWinner({required Id? boxId});
-
-  Future<Either<BlockchainFailures, String>> showResults(
-      {required Id? boxId, required Id? candidateId});
-
-  Future<Either<BlockchainFailures, String>> voterProfile(
-      {required Id? boxId, required Address? voterAddress});
-
   Future<Either<BlockchainFailures, BallotBoxDto>> showBallotBox(
       {required Id? boxId});
 

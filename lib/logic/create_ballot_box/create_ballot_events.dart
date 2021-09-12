@@ -39,3 +39,6 @@ class CreateBallotEvents with _$CreateBallotEvents {
 
   const factory CreateBallotEvents.createBallotBox() = CreateBallotBox;
 }
+
+
+

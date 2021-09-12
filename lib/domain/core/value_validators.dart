@@ -24,12 +24,26 @@ Either<ValueFailures<String>, String> validateEthAddress({
   final isEthereumAddress = address!.contains(RegExp(r"^0x[a-fA-F0-9]{40}$"));
 
   if (!isEthereumAddress) {
-    print('GREŠKA U VALIDACIJI $isEthereumAddress  $address');
     return left(
       ValueFailures.invalidEthAddress(failedValue: address),
     );
   } else {
     return right(address);
+  }
+}
+
+Either<ValueFailures<String>, String> validatePrivateKey({
+  required String? privateKey,
+}) {
+  final privateKeyRegex = RegExp(
+      r'[a-fA-F0-9]{64}$');
+
+  if (privateKeyRegex.hasMatch(privateKey!)) {
+    return right(privateKey);
+  } else {
+    return left(
+      ValueFailures.invalidPrivateKey(failedValue: privateKey),
+    );
   }
 }
 
@@ -58,21 +72,6 @@ Either<ValueFailures<List<Candidate>>, List<Candidate>> validateMaxListLength({
     );
   } else {
     return right(list);
-  }
-}
-
-Either<ValueFailures<String>, String> validatePrivateKey({
-  required String? privateKey,
-}) {
-  final privateKeyRegex = RegExp(
-      r'[a-fA-F0-9]{64}$');
-
-  if (privateKeyRegex.hasMatch(privateKey!)) {
-    return right(privateKey);
-  } else {
-    return left(
-      ValueFailures.invalidPrivateKey(failedValue: privateKey),
-    );
   }
 }
 

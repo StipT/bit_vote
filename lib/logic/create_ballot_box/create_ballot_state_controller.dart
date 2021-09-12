@@ -40,15 +40,10 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
           state = state.copyWith();
           print(state.candidates.toString());
         },
-
         createBallotBox: (value) async {
           await _createBallotBox(_web3Service.createElection);
         },
         ballotBoxCreated: (value) async {
-          print(
-              "BallotBoxCreated at Controller ${value.ballotBoxId} ${value.sender} ${value.electionState}");
-          print(
-              "BallotBox Created  ${value.ballotBoxId} with topic ${value.topic}");
           state = state.copyWith(
             id: Id(
               id: value.ballotBoxId,
