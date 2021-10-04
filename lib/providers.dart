@@ -19,13 +19,6 @@ import 'logic/vote/ballot_box_dto.dart';
 import 'logic/vote/vote_state_controller.dart';
 import 'logic/vote/vote_states.dart';
 
-final authProvider =
-    StateNotifierProvider.autoDispose<AuthStateController, AuthStates>((ref) {
-  final firebaseAuth = FirebaseAuth.instance;
-  final firebaseAuthService = FirebaseAuthentication(firebaseAuth);
-  return AuthStateController(firebaseAuthService);
-});
-
 final firestoreProvider =
     StateNotifierProvider<FirestoreStateController, FirestoreStates>((ref) {
   return FirestoreStateController(
@@ -87,7 +80,6 @@ final recentBallotsProvider = FutureProvider.autoDispose((ref) {
 
   return _firestoreService.readBallots().then((value) {
     final List<Id> boxBallotsIds = value.fold((failure) {
-      print(failure.toString());
       throw ServerError();
     },
         (success) => success.map((e) => Id(id: e)).toList());

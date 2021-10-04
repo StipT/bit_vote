@@ -38,7 +38,6 @@ class CreateBallotStateController extends StateNotifier<CreateBallotStates> {
           state.candidates[value.candidateId!.toInt()] =
               Candidate(name: value.candidateName!);
           state = state.copyWith();
-          print(state.candidates.toString());
         },
         createBallotBox: (value) async {
           await _createBallotBox(_web3Service.createElection);

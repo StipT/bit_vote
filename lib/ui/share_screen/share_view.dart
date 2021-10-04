@@ -73,9 +73,7 @@ class ShareView extends ConsumerWidget {
                           .fold((l) => throw UnExpectedValueError(l), (r) => r.toString()),
                       textAlign: TextAlign.center,
                       enabled: false,
-                      onTap: () {
-                        print('klik');
-                      },
+                      onTap: () {},
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,

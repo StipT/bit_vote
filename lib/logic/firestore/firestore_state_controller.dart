@@ -20,11 +20,7 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
           _firestoreService.readUserData,
         );
       },
-      storeUserData: (value) async {
-        await _storeUserId(
-          _firestoreService.storeUserData,
-        );
-      },
+      storeUserData: (value) async {},
       readBallots: (value) async {
         await _readBallots(
           _firestoreService.readBallots,
@@ -46,7 +42,6 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
         forwardCall,
   ) async {
     Either<FirestoreFailures, UserData>? failureOrSuccess;
-    print('U storeUserId');
     state = state.copyWith(
       isSubmitting: true,
       requestFailureOrSuccess: none(),
@@ -72,7 +67,7 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
       isSubmitting: true,
       requestFailureOrSuccess: none(),
     );
-
+    print(failureOrSuccess.toString());
     failureOrSuccess = await forwardCall();
 
     UserData userData =
@@ -96,9 +91,6 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
       isSubmitting: true,
       requestFailureOrSuccess: none(),
     );
-
-    print('In store ballot');
-
     failureOrSuccess = await forwardCall(id: id);
 
     state = state.copyWith(
@@ -106,7 +98,6 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
       showError: true,
       storeBallotFailureOrSuccess: optionOf(failureOrSuccess),
     );
-    print('STASTE AFTER sotre ballot ${state.ballots.toString()}');
   }
 
   Future _readBallots(
@@ -129,6 +120,5 @@ class FirestoreStateController extends StateNotifier<FirestoreStates> {
       showError: true,
       readBallotsFailureOrSuccess: optionOf(failureOrSuccess),
     );
-    print('Ballots: ${ballots.toString()}');
   }
 }

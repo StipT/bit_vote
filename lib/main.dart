@@ -1,7 +1,6 @@
 import 'package:bit_vote/repository/firebase_authentication.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/ui/auth_screen/login_view.dart';
-import 'package:bit_vote/ui/auth_screen/register_view.dart';
 import 'package:bit_vote/ui/menu_screen/menu_view.dart';
 import 'package:bit_vote/ui/splash_screen/splash.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +15,7 @@ void main() async {
     child: MyApp(),
   ));
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,17 +26,13 @@ class MyApp extends StatelessWidget {
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             _homeView = Splash();
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            snapshot.data == null
-                ? _homeView = LoginView()
-                : _homeView = MenuView();
-          } else {
-            _homeView = LoginView();
           }
           return MaterialApp(
             title: "bitVote",
             themeMode: ThemeMode.light,
-            home: _homeView,
+            home: snapshot.data == null
+                ? _homeView = LoginView()
+                : _homeView = MenuView(),
             supportedLocales: const [
               Locale('en', ''),
               //   Locale('hr', ''),

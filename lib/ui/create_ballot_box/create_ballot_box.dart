@@ -6,7 +6,6 @@ import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
 import 'package:bit_vote/shared/spinner_dialog.dart';
 import 'package:bit_vote/ui/share_screen/share_view.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -34,7 +33,6 @@ class CreateBallotBoxView extends ConsumerWidget {
     if (firstBuild) {
       void Function(String, BigInt, String, String) onBallotBoxCreated =
           (sender, ballotBox, topic, electionState) {
-        print('EVENT U provider uTRIGGERAN');
         formEvents.mapEventsToStates(
           CreateBallotEvents.ballotBoxCreated(
               sender: sender,
@@ -46,7 +44,6 @@ class CreateBallotBoxView extends ConsumerWidget {
 
       void Function(String, BigInt, BigInt, BigInt) onElectionStart =
           (sender, ballotBox, electionState, endTime) {
-        print('onElectionStarted');
         formEvents.mapEventsToStates(
           CreateBallotEvents.ballotBoxStarted(
               sender: sender,
@@ -65,8 +62,6 @@ class CreateBallotBoxView extends ConsumerWidget {
       () {},
       (either) => either.fold(
         (failure) {
-          print('FAILURE');
-
           SchedulerBinding.instance!.addPostFrameCallback((_) {
             buildCustomSnackBar(
                 context: context,
@@ -92,11 +87,10 @@ class CreateBallotBoxView extends ConsumerWidget {
           });
         },
         (success) {
-          print(formStates.electionState.toString());
-          if(formStates.electionState == ElectionState.CREATED && !isNavigated) {
+          if (formStates.electionState == ElectionState.CREATED &&
+              !isNavigated) {
             isNavigated = true;
             SchedulerBinding.instance!.addPostFrameCallback((_) {
-              print('TUSAM PRIJE SHARE NAVIGACIJE');
               Navigator.push<Widget>(
                   context,
                   MaterialPageRoute(
@@ -302,9 +296,9 @@ class CreateBallotBoxView extends ConsumerWidget {
                       BigInt duration = BigInt.from((date.hour * 3600) +
                           (date.minute * 60) +
                           date.second);
-                      print(duration);
                       formEvents.mapEventsToStates(
-                          CreateBallotEvents.onEditDuration(duration: duration));
+                          CreateBallotEvents.onEditDuration(
+                              duration: duration));
                       _durationController.text =
                           "${date.hour}h ${date.minute}m ${date.second}s";
                     }, currentTime: DateTime.now(), locale: LocaleType.en);

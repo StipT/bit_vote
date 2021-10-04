@@ -24,6 +24,10 @@ class _$AuthFailuresTearOff {
     return const EmailAlreadyInUse();
   }
 
+  PermissionDenied permissionDenied() {
+    return const PermissionDenied();
+  }
+
   InavalidEmailAndPasswordCombination invalidEmailAndPasswordCombination() {
     return const InavalidEmailAndPasswordCombination();
   }
@@ -38,6 +42,7 @@ mixin _$AuthFailures {
   TResult when<TResult extends Object?>({
     required TResult Function() serverError,
     required TResult Function() emailAlreadyInUse,
+    required TResult Function() permissionDenied,
     required TResult Function() invalidEmailAndPasswordCombination,
   }) =>
       throw _privateConstructorUsedError;
@@ -45,6 +50,7 @@ mixin _$AuthFailures {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? emailAlreadyInUse,
+    TResult Function()? permissionDenied,
     TResult Function()? invalidEmailAndPasswordCombination,
     required TResult orElse(),
   }) =>
@@ -53,6 +59,7 @@ mixin _$AuthFailures {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) serverError,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
+    required TResult Function(PermissionDenied value) permissionDenied,
     required TResult Function(InavalidEmailAndPasswordCombination value)
         invalidEmailAndPasswordCombination,
   }) =>
@@ -61,6 +68,7 @@ mixin _$AuthFailures {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(PermissionDenied value)? permissionDenied,
     TResult Function(InavalidEmailAndPasswordCombination value)?
         invalidEmailAndPasswordCombination,
     required TResult orElse(),
@@ -125,6 +133,7 @@ class _$ServerError implements ServerError {
   TResult when<TResult extends Object?>({
     required TResult Function() serverError,
     required TResult Function() emailAlreadyInUse,
+    required TResult Function() permissionDenied,
     required TResult Function() invalidEmailAndPasswordCombination,
   }) {
     return serverError();
@@ -135,6 +144,7 @@ class _$ServerError implements ServerError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? emailAlreadyInUse,
+    TResult Function()? permissionDenied,
     TResult Function()? invalidEmailAndPasswordCombination,
     required TResult orElse(),
   }) {
@@ -149,6 +159,7 @@ class _$ServerError implements ServerError {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) serverError,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
+    required TResult Function(PermissionDenied value) permissionDenied,
     required TResult Function(InavalidEmailAndPasswordCombination value)
         invalidEmailAndPasswordCombination,
   }) {
@@ -160,6 +171,7 @@ class _$ServerError implements ServerError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(PermissionDenied value)? permissionDenied,
     TResult Function(InavalidEmailAndPasswordCombination value)?
         invalidEmailAndPasswordCombination,
     required TResult orElse(),
@@ -217,6 +229,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   TResult when<TResult extends Object?>({
     required TResult Function() serverError,
     required TResult Function() emailAlreadyInUse,
+    required TResult Function() permissionDenied,
     required TResult Function() invalidEmailAndPasswordCombination,
   }) {
     return emailAlreadyInUse();
@@ -227,6 +240,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? emailAlreadyInUse,
+    TResult Function()? permissionDenied,
     TResult Function()? invalidEmailAndPasswordCombination,
     required TResult orElse(),
   }) {
@@ -241,6 +255,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) serverError,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
+    required TResult Function(PermissionDenied value) permissionDenied,
     required TResult Function(InavalidEmailAndPasswordCombination value)
         invalidEmailAndPasswordCombination,
   }) {
@@ -252,6 +267,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(PermissionDenied value)? permissionDenied,
     TResult Function(InavalidEmailAndPasswordCombination value)?
         invalidEmailAndPasswordCombination,
     required TResult orElse(),
@@ -265,6 +281,102 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
 
 abstract class EmailAlreadyInUse implements AuthFailures {
   const factory EmailAlreadyInUse() = _$EmailAlreadyInUse;
+}
+
+/// @nodoc
+abstract class $PermissionDeniedCopyWith<$Res> {
+  factory $PermissionDeniedCopyWith(
+          PermissionDenied value, $Res Function(PermissionDenied) then) =
+      _$PermissionDeniedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$PermissionDeniedCopyWithImpl<$Res>
+    extends _$AuthFailuresCopyWithImpl<$Res>
+    implements $PermissionDeniedCopyWith<$Res> {
+  _$PermissionDeniedCopyWithImpl(
+      PermissionDenied _value, $Res Function(PermissionDenied) _then)
+      : super(_value, (v) => _then(v as PermissionDenied));
+
+  @override
+  PermissionDenied get _value => super._value as PermissionDenied;
+}
+
+/// @nodoc
+
+class _$PermissionDenied implements PermissionDenied {
+  const _$PermissionDenied();
+
+  @override
+  String toString() {
+    return 'AuthFailures.permissionDenied()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is PermissionDenied);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() serverError,
+    required TResult Function() emailAlreadyInUse,
+    required TResult Function() permissionDenied,
+    required TResult Function() invalidEmailAndPasswordCombination,
+  }) {
+    return permissionDenied();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? serverError,
+    TResult Function()? emailAlreadyInUse,
+    TResult Function()? permissionDenied,
+    TResult Function()? invalidEmailAndPasswordCombination,
+    required TResult orElse(),
+  }) {
+    if (permissionDenied != null) {
+      return permissionDenied();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ServerError value) serverError,
+    required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
+    required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(InavalidEmailAndPasswordCombination value)
+        invalidEmailAndPasswordCombination,
+  }) {
+    return permissionDenied(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ServerError value)? serverError,
+    TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(InavalidEmailAndPasswordCombination value)?
+        invalidEmailAndPasswordCombination,
+    required TResult orElse(),
+  }) {
+    if (permissionDenied != null) {
+      return permissionDenied(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class PermissionDenied implements AuthFailures {
+  const factory PermissionDenied() = _$PermissionDenied;
 }
 
 /// @nodoc
@@ -314,6 +426,7 @@ class _$InavalidEmailAndPasswordCombination
   TResult when<TResult extends Object?>({
     required TResult Function() serverError,
     required TResult Function() emailAlreadyInUse,
+    required TResult Function() permissionDenied,
     required TResult Function() invalidEmailAndPasswordCombination,
   }) {
     return invalidEmailAndPasswordCombination();
@@ -324,6 +437,7 @@ class _$InavalidEmailAndPasswordCombination
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? emailAlreadyInUse,
+    TResult Function()? permissionDenied,
     TResult Function()? invalidEmailAndPasswordCombination,
     required TResult orElse(),
   }) {
@@ -338,6 +452,7 @@ class _$InavalidEmailAndPasswordCombination
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) serverError,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
+    required TResult Function(PermissionDenied value) permissionDenied,
     required TResult Function(InavalidEmailAndPasswordCombination value)
         invalidEmailAndPasswordCombination,
   }) {
@@ -349,6 +464,7 @@ class _$InavalidEmailAndPasswordCombination
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(PermissionDenied value)? permissionDenied,
     TResult Function(InavalidEmailAndPasswordCombination value)?
         invalidEmailAndPasswordCombination,
     required TResult orElse(),

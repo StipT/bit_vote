@@ -85,7 +85,6 @@ class Web3Service implements IWeb3Service {
       List<dynamic> result = await _call("checkState", [boxIdValue]);
       return right(result.toString());
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.serverError());
     }
   }
@@ -101,12 +100,8 @@ class Web3Service implements IWeb3Service {
     try {
       List<dynamic> result =
           await _call("displayCandidate", [boxIdValue, candidateIdValue]);
-
-      print(result);
-
       return right(result.toString());
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.serverError());
     }
   }
@@ -131,7 +126,6 @@ class Web3Service implements IWeb3Service {
 
       return right(ballotBox);
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.serverError());
     }
   }
@@ -158,7 +152,6 @@ class Web3Service implements IWeb3Service {
 
         ballotBoxes.add(ballotBox);
       } catch (e) {
-        print(e.toString());
         return left(const BlockchainFailures.serverError());
       }
     }
@@ -172,10 +165,8 @@ class Web3Service implements IWeb3Service {
 
     try {
       var response = await _sendTransaction("createBallotBox", [topicValue]);
-      print(response);
       return right(unit);
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.transactionFailed());
     }
   }
@@ -190,10 +181,8 @@ class Web3Service implements IWeb3Service {
     try {
       var response =
           await _sendTransaction("vote", [boxIdValue, candidateIdValue]);
-      print(response);
       return right(unit);
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.transactionFailed());
     }
   }
@@ -202,14 +191,10 @@ class Web3Service implements IWeb3Service {
       {required Id? boxId, required String name}) async {
     final boxIdValue =
         boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-
-    print(boxIdValue);
     try {
       var response = await _sendTransaction("addCandidate", [boxIdValue, name]);
-      print(response);
       return right(unit);
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.transactionFailed());
     }
   }
@@ -220,10 +205,8 @@ class Web3Service implements IWeb3Service {
         boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
     try {
       var response = await _sendTransaction("addVoter", [boxIdValue]);
-      print(response);
       return right(unit);
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.transactionFailed());
     }
   }
@@ -234,10 +217,8 @@ class Web3Service implements IWeb3Service {
         boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
     try {
       var response = await _sendTransaction("endElection", [boxIdValue]);
-      print(response);
       return right(unit);
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.transactionFailed());
     }
   }
@@ -403,16 +384,12 @@ class Web3Service implements IWeb3Service {
   Future<Either<BlockchainFailures, Unit>> startElection({required Id? boxId, required BigInt? duration}) async {
     final boxIdValue =
     boxId!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
-
-    print('boxId');
     BigInt durationZ = duration!;
     try {
       var response =
       await _sendTransaction("startElection", [boxIdValue, durationZ]);
-      print(response);
       return right(unit);
     } catch (e) {
-      print(e.toString());
       return left(const BlockchainFailures.transactionFailed());
     }
   }

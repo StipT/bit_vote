@@ -14,11 +14,11 @@ class FirebaseAuthentication implements IFirebaseAuth {
   @override
   Future<Either<AuthFailures, Unit>> registerWithEmailAndPassword(
       {required EmailAddress? emailAddress,
-      required Password? password}) async {
+        required Password? password}) async {
     final emailAddressString = emailAddress!.valueObject!
         .fold((l) => throw UnExpectedValueError(l), id);
     final passwordString =
-        password!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+    password!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: emailAddressString, password: passwordString);
@@ -35,11 +35,11 @@ class FirebaseAuthentication implements IFirebaseAuth {
   @override
   Future<Either<AuthFailures, Unit>> signInWithEmailAndPassword(
       {required EmailAddress? emailAddress,
-      required Password? password}) async {
+        required Password? password}) async {
     final emailAddressString = emailAddress!.valueObject!
         .fold((l) => throw UnExpectedValueError(l), id);
     final passwordString =
-        password!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
+    password!.valueObject!.fold((l) => throw UnExpectedValueError(l), id);
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: emailAddressString, password: passwordString);
@@ -54,12 +54,21 @@ class FirebaseAuthentication implements IFirebaseAuth {
   }
 
   @override
-  Future<Option<String>> getSignedInUser() async {
-    return optionOf(_firebaseAuth.currentUser?.uid);
+  Future<Either<AuthFailures, String>> getSignedInUser() async {
+    try {
+      return right(_firebaseAuth.currentUser!.uid);
+    } on FirebaseAuthException catch (e) {
+      return left(const AuthFailures.serverError());
+    }
   }
 
   @override
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+  Future<Either<AuthFailures, Unit>> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      return left(const AuthFailures.serverError());
+    }
   }
 }

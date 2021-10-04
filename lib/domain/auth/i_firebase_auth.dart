@@ -10,7 +10,7 @@ abstract class IFirebaseAuth {
   Future<Either<AuthFailures, Unit>> signInWithEmailAndPassword(
       {required EmailAddress? emailAddress, required Password? password});
 
-  Future<Option<String>> getSignedInUser();
+  Future<Either<AuthFailures, String>> getSignedInUser();
 
-  Future<void> signOut();
+  Future<Either<AuthFailures, Unit>> signOut();
 }

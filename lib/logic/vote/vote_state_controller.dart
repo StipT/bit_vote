@@ -14,7 +14,6 @@ class VoteStateController extends StateNotifier<VoteStates> {
       : super(VoteStates.initial()) {
     _web3Service = web3Service;
     _showBallotBox(({boxId}) => _web3Service.showBallotBox(boxId: id));
-    print('U INITU');
   }
 
   late final IWeb3Service _web3Service;
@@ -33,7 +32,6 @@ class VoteStateController extends StateNotifier<VoteStates> {
         state = state.copyWith(
           selectedCandidate: value.candidateId!.toInt(),
         );
-        print("Selecterxc candidate ${state.selectedCandidate.toString()}");
       },
       addVoter: (value) async {
         await _addVoter(({boxId}) => _web3Service.addVoter(boxId: boxId));
@@ -90,7 +88,6 @@ class VoteStateController extends StateNotifier<VoteStates> {
     BallotBoxDto ballotBoxDto = failureOrSuccess.fold(
         (l) => throw BlockchainFailures.serverError(), (r) => r);
 
-    print("U web3 service showBallotBox ---  ${ballotBoxDto.toString()}");
 
     state = state.copyWith(
       id: ballotBoxDto.id,
@@ -102,8 +99,6 @@ class VoteStateController extends StateNotifier<VoteStates> {
       showError: true,
       transactionFailureOrSuccess: none(),
     );
-
-    print("U web3 service showBallotBox ---  ${state.toString()}");
   }
 
   Future _addVoter(

@@ -1,3 +1,4 @@
+import 'package:bit_vote/domain/auth/auth_failures.dart';
 import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
 import 'package:bit_vote/domain/firestore/firestore_failures.dart';
 import 'package:bit_vote/domain/firestore/firestore_value_objects.dart';
@@ -56,16 +57,14 @@ class FirestoreService implements IFirestoreService {
   }
 
   @override
-  Future<Either<FirestoreFailures, UserData>> storeUserData(
-      {required UserData userData}) async {
+  Future<Either<AuthFailures, Unit>> storeUserData() async {
     try {
       bool doesUserExists = await _firebaseFirestore
           .collection("users")
           .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .limit(1)
           .get()
-          .then((value) => value.docs[0].exists);
-
+          .then((value) => value.size != 0);
 
       if (!doesUserExists) {
         return _firebaseFirestore
@@ -76,29 +75,19 @@ class FirestoreService implements IFirestoreService {
             .then((value) {
           final document = value.docs[0];
           var documentData = document.data();
-          print(document.toString());
           documentData["userId"] = FirebaseAuth.instance.currentUser!.uid;
           document.reference.update(documentData);
 
-          return right(
-            UserData(
-              address: Address(
-                address: documentData["ethAddress"],
-              ),
-              privateKey: PrivateKey(
-                privateKey: documentData["privateKey"],
-              ),
-            ),
-          );
+          return right(unit);
         });
       } else {
-        return left(const FirestoreFailures.serverError());
+        return left(const AuthFailures.serverError());
       }
     } catch (e) {
       if (e is FirebaseException && e.message!.contains('PERMISSION_DENIED')) {
-        return left(const FirestoreFailures.unauthorized());
+        return left(const AuthFailures.permissionDenied());
       } else {
-        return left(const FirestoreFailures.serverError());
+        return left(const AuthFailures.serverError());
       }
     }
   }
@@ -134,11 +123,6 @@ class FirestoreService implements IFirestoreService {
         List<dynamic> documentData = value.data()!["ballots"];
         List<BigInt> bigIntData =
             documentData.map((e) => stringToBigInt(e)).toList();
-        print(bigIntData);
-        print(bigIntData.runtimeType);
-
-        print(documentData.map((e) => stringToBigInt(e)));
-        print(documentData.map((e) => stringToBigInt(e)).toList().runtimeType);
         List<BigInt> list = documentData.map((e) => stringToBigInt(e)).toList();
 
         return right(bigIntData);

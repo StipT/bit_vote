@@ -10,6 +10,7 @@ import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/ui/auth_screen/register_view.dart';
 import 'package:bit_vote/ui/menu_screen/menu_view.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,8 @@ final loginAuthProvider =
     StateNotifierProvider.autoDispose<AuthStateController, AuthStates>((ref) {
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseAuthService = FirebaseAuthentication(firebaseAuth);
-  return AuthStateController(firebaseAuthService);
+  final firestoreService = FirestoreService.instance();
+  return AuthStateController(firebaseAuthService, firestoreService);
 });
 
 final loginFirestoreProvider =
@@ -46,17 +48,13 @@ class LoginView extends ConsumerWidget {
     var authStates = watch(loginAuthProvider);
     final authEvents = watch(loginAuthProvider.notifier);
 
-    final firestoreStates = watch(loginFirestoreProvider);
-    final firestoreEvents = watch(loginFirestoreProvider.notifier);
-
-
     authStates.authFailureOrSuccess.fold(
           () {},
           (either) =>
           either.fold(
                 (failure) {
               SchedulerBinding.instance!.addPostFrameCallback((_) {
-                buildCustomSnackBar(
+            buildCustomSnackBar(
                     context: context,
                     flashBackground: Colors.red,
                     icon: Icons.warning_rounded,
@@ -79,71 +77,29 @@ class LoginView extends ConsumerWidget {
               });
             },
                 (success) {
-              firestoreEvents
-                  .mapEventsToStates(
-                  const FirestoreEvents.readUserData())
-                  .then((value) =>
                   SchedulerBinding.instance!.addPostFrameCallback((_) {
+                    buildCustomSnackBar(
+                        context: context,
+                        flashBackground: Colors.green,
+                        icon: CupertinoIcons.check_mark_circled_solid,
+                        content: Text(
+                          'Login successful',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(color: Colors.white),
+                        ));
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) => MenuView(),
                         ),
                             (route) => false);
-                  }));
+                  });
                   },
           ),
     );
 
-    firestoreStates.requestFailureOrSuccess.fold(
-      () {},
-      (either) => either.fold(
-        (failure) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            buildCustomSnackBar(
-                context: context,
-                flashBackground: Colors.red,
-                icon: Icons.warning_rounded,
-                content: Text(
-                  failure.maybeMap(
-                    orElse: () => '',
-                    unauthorized: (value) {
-                      return "Unauthorized request";
-                    },
-                    serverError: (value) {
-                      return 'Server error occurred';
-                    },
-                  ),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5!
-                      .copyWith(color: Colors.white),
-                ));
-          });
-        },
-        (success) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            buildCustomSnackBar(
-                context: context,
-                flashBackground: Colors.green,
-                icon: CupertinoIcons.check_mark_circled_solid,
-                content: Text(
-                  'Login successful',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5!
-                      .copyWith(color: Colors.white),
-                ));
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MenuView(),
-                ),
-                (route) => false);
-          });
-        },
-      ),
-    );
 
     return SafeArea(
       child: Scaffold(

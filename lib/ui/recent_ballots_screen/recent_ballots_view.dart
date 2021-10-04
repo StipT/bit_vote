@@ -38,9 +38,6 @@ class RecentBallotsView extends ConsumerWidget {
         body: watch(recentBallotsProvider).when(
             data: (either) {
               return either.fold((failure) => Container(), (ballotBoxes) {
-                print(ballotBoxes.toString());
-                print("ballotBox.toString()");
-
                 return Container(
                   child: ListView.builder(
                     itemCount: ballotBoxes.length,

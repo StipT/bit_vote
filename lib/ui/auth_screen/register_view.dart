@@ -1,15 +1,11 @@
 import 'package:bit_vote/logic/auth/auth_events.dart';
 import 'package:bit_vote/logic/auth/auth_state_controller.dart';
 import 'package:bit_vote/logic/auth/auth_states.dart';
-import 'package:bit_vote/logic/firestore/firestore_events.dart';
-import 'package:bit_vote/logic/firestore/firestore_state_controller.dart';
-import 'package:bit_vote/logic/firestore/firestore_states.dart';
 import 'package:bit_vote/repository/firebase_authentication.dart';
 import 'package:bit_vote/repository/firestore_service.dart';
 import 'package:bit_vote/shared/app_colors.dart';
 import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
-import 'package:bit_vote/ui/auth_screen/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,18 +14,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'login_view.dart';
+
 final registerAuthProvider =
     StateNotifierProvider.autoDispose<AuthStateController, AuthStates>((ref) {
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseAuthService = FirebaseAuthentication(firebaseAuth);
-  return AuthStateController(firebaseAuthService);
-});
-
-final registerFirestoreProvider =
-    StateNotifierProvider<FirestoreStateController, FirestoreStates>((ref) {
-  return FirestoreStateController(
-    FirestoreService(),
-  );
+  final firestoreService = FirestoreService.instance();
+  return AuthStateController(firebaseAuthService, firestoreService);
 });
 
 class RegisterView extends ConsumerWidget {
@@ -39,95 +31,39 @@ class RegisterView extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final deviceSize = MediaQuery.of(context).size;
 
-    final formStates = watch(registerAuthProvider);
-    final formEvents = watch(registerAuthProvider.notifier);
-
-    final firestoreStates = watch(registerFirestoreProvider);
-    final firestoreEvents = watch(registerFirestoreProvider.notifier);
-
-    formStates.authFailureOrSuccess.fold(
-      () {},
-      (either) => either.fold(
-        (failure) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            buildCustomSnackBar(
-                context: context,
-                flashBackground: Colors.red,
-                icon: Icons.warning_rounded,
-                content: Text(
-                  failure.maybeMap(
-                    orElse: () => '',
-                    emailAlreadyInUse: (value) => 'User already exists',
-                    serverError: (value) {
-                      return 'Server error occurred';
-                    },
-                  ),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5!
-                      .copyWith(color: Colors.white),
-                ));
-          });
-        },
-        (success) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            firestoreEvents
-                .mapEventsToStates(const FirestoreEvents.storeUserData());
-          });
-        },
-      ),
-    );
-
-    firestoreStates.requestFailureOrSuccess.fold(
-      () {},
-      (either) => either.fold(
-        (failure) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            buildCustomSnackBar(
-                context: context,
-                flashBackground: Colors.red,
-                icon: Icons.warning_rounded,
-                content: Text(
-                  failure.maybeMap(
-                    orElse: () => '',
-                    unauthorized: (value) {
-                      return "Unauthorized request";
-                    },
-                    serverError: (value) {
-                      return 'Server error occurred';
-                    },
-                  ),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5!
-                      .copyWith(color: Colors.white),
-                ));
-          });
-        },
-        (success) {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            buildCustomSnackBar(
-                context: context,
-                flashBackground: Colors.green,
-                icon: CupertinoIcons.check_mark_circled_solid,
-                content: Text(
-                  'Registration successful',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5!
-                      .copyWith(color: Colors.white),
-                ));
-
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginView(),
-                ),
-                (route) => false);
-          });
-        },
-      ),
-    );
+    final registerStates = watch(registerAuthProvider);
+    final registerEvents = watch(registerAuthProvider.notifier);
+    registerStates.authFailureOrSuccess.fold(
+            () {},
+            (either) => either.fold((failure) {
+                  SchedulerBinding.instance!.addPostFrameCallback((_) {
+                    buildCustomSnackBar(
+                        context: context,
+                        flashBackground: Colors.red,
+                        icon: Icons.warning_rounded,
+                        content: Text(
+                          failure.maybeMap(
+                            orElse: () => '',
+                            emailAlreadyInUse: (value) => 'User already exists',
+                            serverError: (value) {
+                              return 'Server error occurred';
+                            },
+                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(color: Colors.white),
+                        ));
+                  });
+                }, (success) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginView(),
+                        maintainState: false,
+                      ),
+                    );
+                },),);
 
     return SafeArea(
       child: Scaffold(
@@ -202,11 +138,12 @@ class RegisterView extends ConsumerWidget {
                                     hintText: "email"),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                onChanged: (value) => formEvents
+                                onChanged: (value) => registerEvents
                                     .mapEventsToStates(AuthEvents.emailChanged(
                                         email: value.toString())),
-                                validator: (value) =>
-                                    formStates.emailAddress.valueObject!.fold(
+                                validator: (value) => registerStates
+                                    .emailAddress.valueObject!
+                                    .fold(
                                   (failure) => failure.maybeMap(
                                       orElse: () => null,
                                       invalidEmail: (value) => 'Invalid email'),
@@ -261,7 +198,7 @@ class RegisterView extends ConsumerWidget {
                                 onEditingComplete: () =>
                                     FocusScope.of(context).nextFocus(),
                                 validator: (value) =>
-                                    formStates.password.valueObject!.fold(
+                                    registerStates.password.valueObject!.fold(
                                   (failure) => failure.maybeMap(
                                     orElse: () => null,
                                     shortPassword: (value) =>
@@ -276,7 +213,7 @@ class RegisterView extends ConsumerWidget {
                                   (r) => null,
                                 ),
                                 onChanged: (value) =>
-                                    formEvents.mapEventsToStates(
+                                    registerEvents.mapEventsToStates(
                                   AuthEvents.passwordChanged(
                                       password: value.toString()),
                                 ),
@@ -306,7 +243,7 @@ class RegisterView extends ConsumerWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                formEvents.mapEventsToStates(
+                                registerEvents.mapEventsToStates(
                                   const AuthEvents
                                       .signUpWithEmailAndPasswordPressed(),
                                 );

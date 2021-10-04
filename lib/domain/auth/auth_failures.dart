@@ -8,6 +8,8 @@ class AuthFailures with _$AuthFailures {
 
   const factory AuthFailures.emailAlreadyInUse() = EmailAlreadyInUse;
 
+  const factory AuthFailures.permissionDenied() = PermissionDenied;
+
   const factory AuthFailures.invalidEmailAndPasswordCombination() =
   InavalidEmailAndPasswordCombination;
 }

@@ -1,7 +1,11 @@
 import 'package:bit_vote/domain/blockchain/blockchain_value_objects.dart';
-import 'package:bit_vote/logic/firestore/firestore_events.dart';
-import 'package:bit_vote/logic/vote/vote_events.dart';
+import 'package:bit_vote/logic/menu/menu_events.dart';
+import 'package:bit_vote/logic/menu/menu_state_controller.dart';
+import 'package:bit_vote/logic/menu/menu_states.dart';
+import 'package:bit_vote/repository/firebase_authentication.dart';
+import 'package:bit_vote/repository/firestore_service.dart';
 import 'package:bit_vote/shared/app_colors.dart';
+import 'package:bit_vote/shared/custom_snackbar.dart';
 import 'package:bit_vote/shared/linear_gradient_mask.dart';
 import 'package:bit_vote/shared/string_util.dart';
 import 'package:bit_vote/ui/auth_screen/login_view.dart';
@@ -9,6 +13,7 @@ import 'package:bit_vote/ui/create_ballot_box/create_ballot_box.dart';
 import 'package:bit_vote/ui/menu_screen/qr_scanner_view.dart';
 import 'package:bit_vote/ui/recent_ballots_screen/recent_ballots_view.dart';
 import 'package:bit_vote/ui/vote_screen/vote_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import 'package:flutter/scheduler.dart';
@@ -16,7 +21,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter_svg/flutter_svg.dart";
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../providers.dart';
+final menuProvider =
+    StateNotifierProvider.autoDispose<MenuStateController, MenuStates>((ref) {
+  return MenuStateController(FirebaseAuthentication(FirebaseAuth.instance),
+      FirestoreService.instance());
+});
 
 Future<PermissionStatus> _getCameraPermission() async {
   var status = await Permission.camera.status;
@@ -33,20 +42,45 @@ class MenuView extends ConsumerWidget {
 
   TextEditingController idController = TextEditingController();
 
-  void _initUser(ScopedReader watch) {
-    if (firstBuild) {
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
-        watch(firestoreProvider.notifier)
-            .mapEventsToStates(const FirestoreEvents.readUserData());
-      });
-      firstBuild = false;
-    }
-  }
-
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    _initUser(watch);
+    // _initUser(watch);
     final deviceSize = MediaQuery.of(context).size;
+
+    watch(menuProvider).logoutFailureOrSuccess.fold(
+          () => {},
+          (either) => either.fold(
+            (failure) => SchedulerBinding.instance!.addPostFrameCallback((_) {
+              buildCustomSnackBar(
+                  context: context,
+                  flashBackground: Colors.red,
+                  icon: Icons.warning_rounded,
+                  content: Text(
+                    failure.maybeMap(
+                      serverError: (value) {
+                        return 'Server error occurred';
+                      },
+                      orElse: () {
+                        return "";
+                      },
+                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5!
+                        .copyWith(color: Colors.white),
+                  ));
+            }),
+            (success) => SchedulerBinding.instance!.addPostFrameCallback((_) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginView(),
+                ),
+              );
+            }),
+          ),
+        );
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: backgroundColor,
@@ -455,11 +489,10 @@ class MenuView extends ConsumerWidget {
           child:
               Container(child: LinearGradientMask(child: Icon(Icons.logout))),
           onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginView(),
-                ),);
+            SchedulerBinding.instance!.addPostFrameCallback((_) {
+              watch(menuProvider.notifier)
+                  .mapEventsToStates(const MenuEvents.onLogout());
+            });
           },
         ),
       ),

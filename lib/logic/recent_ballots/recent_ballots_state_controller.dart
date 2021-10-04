@@ -44,8 +44,6 @@ class RecentBallotsStateController extends StateNotifier<RecentBallotsStates> {
 
     List<Candidate> candidates = List<Candidate>.empty();
     ballotBoxDto.candidates.map((e) => candidates.add(Candidate(name: e)));
-    print('ELECTION STATE IS : ${ballotBoxDto.electionState}');
-
     state = state.copyWith(
       id: ballotBoxDto.id,
       topic: ballotBoxDto.topic,

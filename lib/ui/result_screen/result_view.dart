@@ -45,8 +45,6 @@ class ResultView extends ConsumerWidget {
         body: watch(resultProvider(ballotBoxId)).when(
             data: (either) {
               return either.fold((failure) => Container(), (ballotBox) {
-                print(ballotBox.toString());
-                print("ballotBox.toString()");
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
